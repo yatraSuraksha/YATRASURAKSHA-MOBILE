@@ -807,6 +807,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'3-5 minutes'**
   String get threeToFiveMinutes;
+
+  /// Logout confirmation dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logoutDialogTitle;
+
+  /// Logout confirmation dialog message
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to logout?'**
+  String get logoutDialogMessage;
+
+  /// Signing out loading message
+  ///
+  /// In en, this message translates to:
+  /// **'Signing out...'**
+  String get signingOut;
+
+  /// Completed tab title
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get completed;
+
+  /// Completed tab placeholder content
+  ///
+  /// In en, this message translates to:
+  /// **'Completed Tab Content'**
+  String get completedTabContent;
+
+  /// Button to check permissions again
+  ///
+  /// In en, this message translates to:
+  /// **'Check Again'**
+  String get checkAgain;
+
+  /// Button to enable location services
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Location Services'**
+  String get enableLocationServices;
+
+  /// Button to enable app permissions
+  ///
+  /// In en, this message translates to:
+  /// **'Enable App Permissions'**
+  String get enableAppPermissions;
+
+  /// Permission status section title
+  ///
+  /// In en, this message translates to:
+  /// **'Permission Status'**
+  String get permissionStatus;
+
+  /// Location services label
+  ///
+  /// In en, this message translates to:
+  /// **'Location Services'**
+  String get locationServices;
+
+  /// Background location permission label
+  ///
+  /// In en, this message translates to:
+  /// **'Background Location'**
+  String get backgroundLocation;
+
+  /// Take photo button
+  ///
+  /// In en, this message translates to:
+  /// **'Take Photo'**
+  String get takePhoto;
+
+  /// Select from gallery button
+  ///
+  /// In en, this message translates to:
+  /// **'From Gallery'**
+  String get fromGallery;
+
+  /// Loading message while detecting location
+  ///
+  /// In en, this message translates to:
+  /// **'Detecting location...'**
+  String get detectingLocation;
+
+  /// Error message when location services are disabled
+  ///
+  /// In en, this message translates to:
+  /// **'Location services disabled'**
+  String get locationServicesDisabled;
+
+  /// Error message when location permission is denied
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission denied'**
+  String get locationPermissionDenied;
+
+  /// Error message when unable to get location
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to get location'**
+  String get unableToGetLocation;
+
+  /// Success message when location is detected
+  ///
+  /// In en, this message translates to:
+  /// **'Location detected'**
+  String get locationDetected;
+
+  /// Police emergency contact
+  ///
+  /// In en, this message translates to:
+  /// **'Police'**
+  String get police;
+
+  /// Ambulance emergency contact
+  ///
+  /// In en, this message translates to:
+  /// **'Ambulance'**
+  String get ambulance;
+
+  /// Fire emergency contact
+  ///
+  /// In en, this message translates to:
+  /// **'Fire'**
+  String get fire;
+
+  /// Women helpline contact
+  ///
+  /// In en, this message translates to:
+  /// **'Women'**
+  String get women;
+
+  /// Child helpline contact
+  ///
+  /// In en, this message translates to:
+  /// **'Child'**
+  String get child;
+
+  /// Add button
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get add;
+
+  /// Name field label
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get name;
+
+  /// Contact number field label
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Number'**
+  String get contactNumber;
+
+  /// Relation field label
+  ///
+  /// In en, this message translates to:
+  /// **'Relation'**
+  String get relation;
 }
 
 class _AppLocalizationsDelegate

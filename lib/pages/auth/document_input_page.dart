@@ -559,7 +559,8 @@ class _DocumentInputPageState extends State<DocumentInputPage>
                       children: [
                         const Icon(Icons.camera_alt_rounded),
                         const SizedBox(width: 8),
-                        const Text('Take Photo'),
+                        Text(AppLocalizations.of(context)?.takePhoto ??
+                            'Take Photo'),
                       ],
                     ),
                   ),
@@ -582,7 +583,8 @@ class _DocumentInputPageState extends State<DocumentInputPage>
                       children: [
                         const Icon(Icons.photo_library_rounded),
                         const SizedBox(width: 8),
-                        const Text('From Gallery'),
+                        Text(AppLocalizations.of(context)?.fromGallery ??
+                            'From Gallery'),
                       ],
                     ),
                   ),

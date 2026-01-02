@@ -366,4 +366,85 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get threeToFiveMinutes => '3-5 நிமிடங்கள்';
+
+  @override
+  String get logoutDialogTitle => 'வெளியேறு';
+
+  @override
+  String get logoutDialogMessage => 'நீங்கள் வெளியேற விரும்புகிறீர்களா?';
+
+  @override
+  String get signingOut => 'வெளியேறுகிறது...';
+
+  @override
+  String get completed => 'நிறைவு';
+
+  @override
+  String get completedTabContent => 'நிறைவு தாவல் உள்ளடக்கம்';
+
+  @override
+  String get checkAgain => 'மீண்டும் சரிபார்க்கவும்';
+
+  @override
+  String get enableLocationServices => 'இருப்பிட சேவைகளை இயக்கு';
+
+  @override
+  String get enableAppPermissions => 'ஆப் அனுமதிகளை இயக்கு';
+
+  @override
+  String get permissionStatus => 'அனுமதி நிலை';
+
+  @override
+  String get locationServices => 'இருப்பிட சேவைகள்';
+
+  @override
+  String get backgroundLocation => 'பின்னணி இருப்பிடம்';
+
+  @override
+  String get takePhoto => 'புகைப்படம் எடு';
+
+  @override
+  String get fromGallery => 'கேலரியிலிருந்து';
+
+  @override
+  String get detectingLocation => 'இருப்பிடம் கண்டறியப்படுகிறது...';
+
+  @override
+  String get locationServicesDisabled => 'இருப்பிட சேவைகள் முடக்கப்பட்டுள்ளன';
+
+  @override
+  String get locationPermissionDenied => 'இருப்பிட அனுமதி மறுக்கப்பட்டது';
+
+  @override
+  String get unableToGetLocation => 'இருப்பிடத்தைப் பெற முடியவில்லை';
+
+  @override
+  String get locationDetected => 'இருப்பிடம் கண்டறியப்பட்டது';
+
+  @override
+  String get police => 'காவல்துறை';
+
+  @override
+  String get ambulance => 'அவசர மருத்துவம்';
+
+  @override
+  String get fire => 'தீயணைப்பு';
+
+  @override
+  String get women => 'பெண்கள்';
+
+  @override
+  String get child => 'குழந்தை';
+
+  @override
+  String get add => 'சேர்க்கவும்';
+
+  @override
+  String get name => 'பெயர்';
+
+  @override
+  String get contactNumber => 'தொடர்பு எண்';
+
+  @override
+  String get relation => 'உறவு';
 }

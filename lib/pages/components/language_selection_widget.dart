@@ -23,10 +23,11 @@ class LanguageSelectionWidget extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        // Make the language list scrollable and limit its height
+        // Make the language list scrollable and limit its height to prevent overflow
         ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxHeight: 300, // Limit height to prevent overflow
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height *
+                0.5, // Max 50% of screen height
           ),
           child: SingleChildScrollView(
             child: Column(
@@ -34,6 +35,7 @@ class LanguageSelectionWidget extends StatelessWidget {
                 final isSelected = provider.locale == locale;
                 return ListTile(
                   contentPadding: EdgeInsets.zero,
+                  dense: true, // Make tiles more compact
                   leading: Text(
                     L10n.getFlag(locale.languageCode),
                     style: const TextStyle(fontSize: 24),
@@ -43,10 +45,12 @@ class LanguageSelectionWidget extends StatelessWidget {
                     style: TextStyle(
                       fontWeight:
                           isSelected ? FontWeight.bold : FontWeight.normal,
+                      fontSize: 14,
                     ),
+                    overflow: TextOverflow.ellipsis, // Prevent text overflow
                   ),
                   trailing: isSelected
-                      ? const Icon(Icons.check, color: Colors.green)
+                      ? const Icon(Icons.check, color: Colors.green, size: 20)
                       : null,
                   onTap: () {
                     provider.setLocale(locale);
@@ -67,8 +71,13 @@ class LanguageBottomSheet extends StatelessWidget {
   static void show(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true, // Allow the sheet to be sized based on content
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height *
+            0.8, // Max 80% of screen height
       ),
       builder: (context) => const LanguageBottomSheet(),
     );
@@ -78,31 +87,36 @@ class LanguageBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    return Container(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: BorderRadius.circular(2),
+    return SafeArea(
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(2),
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            l10n?.selectLanguage ?? 'Select Language',
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+            const SizedBox(height: 20),
+            Text(
+              l10n?.selectLanguage ?? 'Select Language',
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
-          const LanguageSelectionWidget(),
-          const SizedBox(height: 20),
-        ],
+            const SizedBox(height: 20),
+            // Wrap in Flexible to prevent overflow
+            Flexible(
+              child: const LanguageSelectionWidget(),
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }

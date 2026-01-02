@@ -359,4 +359,85 @@ class AppLocalizationsAs extends AppLocalizations {
 
   @override
   String get threeToFiveMinutes => '৩-৫ মিনিট';
+
+  @override
+  String get logoutDialogTitle => 'লগআউট';
+
+  @override
+  String get logoutDialogMessage => 'আপুনি লগআউট কৰিব বিচাৰে নেকি?';
+
+  @override
+  String get signingOut => 'চাইন আউট হৈ আছে...';
+
+  @override
+  String get completed => 'সম্পূৰ্ণ';
+
+  @override
+  String get completedTabContent => 'সম্পূৰ্ণ টেব সমল';
+
+  @override
+  String get checkAgain => 'পুনৰ পৰীক্ষা কৰক';
+
+  @override
+  String get enableLocationServices => 'অৱস্থান সেৱা সক্ৰিয় কৰক';
+
+  @override
+  String get enableAppPermissions => 'এপ অনুমতি সক্ৰিয় কৰক';
+
+  @override
+  String get permissionStatus => 'অনুমতিৰ স্থিতি';
+
+  @override
+  String get locationServices => 'অৱস্থান সেৱা';
+
+  @override
+  String get backgroundLocation => 'পটভূমি অৱস্থান';
+
+  @override
+  String get takePhoto => 'ফটো তোলক';
+
+  @override
+  String get fromGallery => 'গেলাৰীৰ পৰা';
+
+  @override
+  String get detectingLocation => 'অৱস্থান চিনাক্ত কৰা হৈছে...';
+
+  @override
+  String get locationServicesDisabled => 'অৱস্থান সেৱা নিষ্ক্ৰিয় কৰা হৈছে';
+
+  @override
+  String get locationPermissionDenied => 'অৱস্থান অনুমতি প্ৰত্যাখ্যান কৰা হৈছে';
+
+  @override
+  String get unableToGetLocation => 'অৱস্থান পাবলৈ অক্ষম';
+
+  @override
+  String get locationDetected => 'অৱস্থান চিনাক্ত হৈছে';
+
+  @override
+  String get police => 'আৰক্ষী';
+
+  @override
+  String get ambulance => 'এম্বুলেন্স';
+
+  @override
+  String get fire => 'অগ্নিনিৰ্বাপক';
+
+  @override
+  String get women => 'মহিলা';
+
+  @override
+  String get child => 'শিশু';
+
+  @override
+  String get add => 'যোগ কৰক';
+
+  @override
+  String get name => 'নাম';
+
+  @override
+  String get contactNumber => 'যোগাযোগ নম্বৰ';
+
+  @override
+  String get relation => 'সম্পৰ্ক';
 }

@@ -365,4 +365,86 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get threeToFiveMinutes => '3-5 മിനിറ്റ്';
+
+  @override
+  String get logoutDialogTitle => 'ലോഗ്ഔട്ട്';
+
+  @override
+  String get logoutDialogMessage =>
+      'നിങ്ങൾക്ക് ലോഗ്ഔട്ട് ചെയ്യണമെന്ന് ഉറപ്പാണോ?';
+
+  @override
+  String get signingOut => 'സൈൻ ഔട്ട് ചെയ്യുന്നു...';
+
+  @override
+  String get completed => 'പൂർത്തിയായി';
+
+  @override
+  String get completedTabContent => 'പൂർത്തീകരിച്ച ടാബ് ഉള്ളടക്കം';
+
+  @override
+  String get checkAgain => 'വീണ്ടും പരിശോധിക്കുക';
+
+  @override
+  String get enableLocationServices => 'ലൊക്കേഷൻ സേവനങ്ങൾ പ്രവർത്തനക്ഷമമാക്കുക';
+
+  @override
+  String get enableAppPermissions => 'ആപ്പ് അനുമതികൾ പ്രവർത്തനക്ഷമമാക്കുക';
+
+  @override
+  String get permissionStatus => 'അനുമതി നില';
+
+  @override
+  String get locationServices => 'ലൊക്കേഷൻ സേവനങ്ങൾ';
+
+  @override
+  String get backgroundLocation => 'പശ്ചാത്തല ലൊക്കേഷൻ';
+
+  @override
+  String get takePhoto => 'ഫോട്ടോ എടുക്കുക';
+
+  @override
+  String get fromGallery => 'ഗാലറിയിൽ നിന്ന്';
+
+  @override
+  String get detectingLocation => 'ലൊക്കേഷൻ കണ്ടെത്തുന്നു...';
+
+  @override
+  String get locationServicesDisabled => 'ലൊക്കേഷൻ സേവനങ്ങൾ പ്രവർത്തനരഹിതം';
+
+  @override
+  String get locationPermissionDenied => 'ലൊക്കേഷൻ അനുമതി നിരസിച്ചു';
+
+  @override
+  String get unableToGetLocation => 'ലൊക്കേഷൻ നേടാൻ കഴിഞ്ഞില്ല';
+
+  @override
+  String get locationDetected => 'ലൊക്കേഷൻ കണ്ടെത്തി';
+
+  @override
+  String get police => 'പോലീസ്';
+
+  @override
+  String get ambulance => 'ആംബുലൻസ്';
+
+  @override
+  String get fire => 'ഫയർ';
+
+  @override
+  String get women => 'സ്ത്രീകൾ';
+
+  @override
+  String get child => 'കുട്ടി';
+
+  @override
+  String get add => 'ചേർക്കുക';
+
+  @override
+  String get name => 'പേര്';
+
+  @override
+  String get contactNumber => 'ബന്ധപ്പെടാനുള്ള നമ്പർ';
+
+  @override
+  String get relation => 'ബന്ധം';
 }

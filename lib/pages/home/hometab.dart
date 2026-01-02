@@ -25,7 +25,7 @@ class _HomeTabState extends State<HomeTab> {
 
   // Location state
   Position? _currentPosition;
-  String _currentAddress = "Detecting location...";
+  String _currentAddress = "";
   bool _isLoadingLocation = true;
   StreamSubscription<Position>? _positionSubscription;
 
@@ -55,7 +55,9 @@ class _HomeTabState extends State<HomeTab> {
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
         setState(() {
-          _currentAddress = "Location services disabled";
+          _currentAddress =
+              AppLocalizations.of(context)?.locationServicesDisabled ??
+                  "Location services disabled";
           _isLoadingLocation = false;
         });
         return;
@@ -67,7 +69,9 @@ class _HomeTabState extends State<HomeTab> {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
           setState(() {
-            _currentAddress = "Location permission denied";
+            _currentAddress =
+                AppLocalizations.of(context)?.locationPermissionDenied ??
+                    "Location permission denied";
             _isLoadingLocation = false;
           });
           return;
@@ -76,7 +80,9 @@ class _HomeTabState extends State<HomeTab> {
 
       if (permission == LocationPermission.deniedForever) {
         setState(() {
-          _currentAddress = "Location permission denied";
+          _currentAddress =
+              AppLocalizations.of(context)?.locationPermissionDenied ??
+                  "Location permission denied";
           _isLoadingLocation = false;
         });
         return;
@@ -98,7 +104,8 @@ class _HomeTabState extends State<HomeTab> {
       _startLocationUpdates();
     } catch (e) {
       setState(() {
-        _currentAddress = "Unable to get location";
+        _currentAddress = AppLocalizations.of(context)?.unableToGetLocation ??
+            "Unable to get location";
         _isLoadingLocation = false;
       });
     }
@@ -211,7 +218,8 @@ class _HomeTabState extends State<HomeTab> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        "Double tap the button to Call",
+                        AppLocalizations.of(context)?.doubleTapToCall ??
+                            "Double tap the button to Call",
                         textAlign: TextAlign.center,
                         style: GoogleFonts.poppins(
                           fontSize: 13,
@@ -233,28 +241,35 @@ class _HomeTabState extends State<HomeTab> {
                           shrinkWrap: true,
                           children: [
                             _buildEmergencyActionCard(
-                              title: "I am feeling unsafe",
+                              title:
+                                  AppLocalizations.of(context)?.feelingUnsafe ??
+                                      "I am feeling unsafe",
                               icon: Icons.security_rounded,
                               color: Colors.pink,
                               onTap: () => _callWomenHelpline(),
                             ),
                             const SizedBox(width: 12), // Reduced from 20 to 12
                             _buildEmergencyActionCard(
-                              title: "Need Medical Help",
+                              title: AppLocalizations.of(context)
+                                      ?.needMedicalHelp ??
+                                  "Need Medical Help",
                               icon: Icons.local_hospital_outlined,
                               color: Colors.red,
                               onTap: () => _navigateToNearbyHospitals(),
                             ),
                             const SizedBox(width: 12), // Reduced from 20 to 12
                             _buildEmergencyActionCard(
-                              title: "Need Police Help",
+                              title: AppLocalizations.of(context)
+                                      ?.needPoliceHelp ??
+                                  "Need Police Help",
                               icon: Icons.local_police_outlined,
                               color: Colors.blue,
                               onTap: () => _navigateToNearbyPoliceStations(),
                             ),
                             const SizedBox(width: 12), // Reduced from 20 to 12
                             _buildEmergencyActionCard(
-                              title: "I had an Injury",
+                              title: AppLocalizations.of(context)?.hadInjury ??
+                                  "I had an Injury",
                               icon: Icons.personal_injury_outlined,
                               color: Colors.teal,
                               onTap: () => _navigateToFirstAid(),
@@ -271,7 +286,8 @@ class _HomeTabState extends State<HomeTab> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Emergency Contacts",
+                        AppLocalizations.of(context)?.emergencyContacts ??
+                            "Emergency Contacts",
                         style: GoogleFonts.poppins(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
@@ -285,18 +301,21 @@ class _HomeTabState extends State<HomeTab> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       _buildContactCard(
-                        "Police",
+                        AppLocalizations.of(context)?.police ?? "Police",
                         "100",
                         "assets/images/contact1.jpg",
                         Icons.local_police_outlined,
                         true,
                         () => {
                           startCountdown(5),
-                          _getConfirmation(context, "Police", policeHelpline)
+                          _getConfirmation(
+                              context,
+                              AppLocalizations.of(context)?.police ?? "Police",
+                              policeHelpline)
                         },
                       ),
                       _buildContactCard(
-                        "Ambulan..",
+                        AppLocalizations.of(context)?.ambulance ?? "Ambulan..",
                         "108",
                         "assets/images/contact2.jpg",
                         Icons.local_hospital_outlined,
@@ -304,7 +323,7 @@ class _HomeTabState extends State<HomeTab> {
                         () => _makeCall(ambulanceHelpline),
                       ),
                       _buildContactCard(
-                        "Fire",
+                        AppLocalizations.of(context)?.fire ?? "Fire",
                         "101",
                         "assets/images/contact3.jpg",
                         Icons.fire_extinguisher,
@@ -317,7 +336,7 @@ class _HomeTabState extends State<HomeTab> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       _buildContactCard(
-                        "Women",
+                        AppLocalizations.of(context)?.women ?? "Women",
                         "1091",
                         "assets/images/contact1.jpg",
                         Icons.woman,
@@ -325,7 +344,7 @@ class _HomeTabState extends State<HomeTab> {
                         () => _makeCall(womenHelpline),
                       ),
                       _buildContactCard(
-                        "Child",
+                        AppLocalizations.of(context)?.child ?? "Child",
                         "1098",
                         "assets/images/contact2.jpg",
                         Icons.child_care,
@@ -333,7 +352,7 @@ class _HomeTabState extends State<HomeTab> {
                         () => _makeCall('1098'),
                       ),
                       _buildContactCard(
-                        "Add",
+                        AppLocalizations.of(context)?.add ?? "Add",
                         "",
                         "assets/images/contact3.jpg",
                         Icons.add,
@@ -381,14 +400,18 @@ class _HomeTabState extends State<HomeTab> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Current Location",
+                  AppLocalizations.of(context)?.currentLocation ??
+                      "Current Location",
                   style: GoogleFonts.poppins(
                     fontSize: 10,
                     color: AppTheme.secondaryTextColor,
                   ),
                 ),
                 Text(
-                  _currentAddress,
+                  _currentAddress.isEmpty
+                      ? (AppLocalizations.of(context)?.detectingLocation ??
+                          "Detecting location...")
+                      : _currentAddress,
                   style: GoogleFonts.poppins(
                     fontSize: 14,
                     color: AppTheme.primaryTextColor,
@@ -1051,7 +1074,7 @@ class _HomeTabState extends State<HomeTab> {
                 TextField(
                   controller: nameController,
                   decoration: InputDecoration(
-                    labelText: "Name",
+                    labelText: AppLocalizations.of(context)?.name ?? "Name",
                     labelStyle: GoogleFonts.poppins(
                       color: Colors.grey[600],
                     ),
@@ -1077,7 +1100,8 @@ class _HomeTabState extends State<HomeTab> {
                   controller: phoneController,
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
-                    labelText: "Contact Number",
+                    labelText: AppLocalizations.of(context)?.contactNumber ??
+                        "Contact Number",
                     labelStyle: GoogleFonts.poppins(
                       color: Colors.grey[600],
                     ),
@@ -1102,7 +1126,8 @@ class _HomeTabState extends State<HomeTab> {
                 TextField(
                   controller: relationController,
                   decoration: InputDecoration(
-                    labelText: "Relation",
+                    labelText:
+                        AppLocalizations.of(context)?.relation ?? "Relation",
                     labelStyle: GoogleFonts.poppins(
                       color: Colors.grey[600],
                     ),

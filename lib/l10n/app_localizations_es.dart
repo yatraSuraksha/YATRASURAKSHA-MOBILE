@@ -366,4 +366,87 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get threeToFiveMinutes => '3-5 minutos';
+
+  @override
+  String get logoutDialogTitle => 'Cerrar sesión';
+
+  @override
+  String get logoutDialogMessage =>
+      '¿Estás seguro de que quieres cerrar sesión?';
+
+  @override
+  String get signingOut => 'Cerrando sesión...';
+
+  @override
+  String get completed => 'Completado';
+
+  @override
+  String get completedTabContent => 'Contenido de pestaña completada';
+
+  @override
+  String get checkAgain => 'Verificar de nuevo';
+
+  @override
+  String get enableLocationServices => 'Habilitar servicios de ubicación';
+
+  @override
+  String get enableAppPermissions => 'Habilitar permisos de la aplicación';
+
+  @override
+  String get permissionStatus => 'Estado de permisos';
+
+  @override
+  String get locationServices => 'Servicios de ubicación';
+
+  @override
+  String get backgroundLocation => 'Ubicación en segundo plano';
+
+  @override
+  String get takePhoto => 'Tomar foto';
+
+  @override
+  String get fromGallery => 'Desde galería';
+
+  @override
+  String get detectingLocation => 'Detectando ubicación...';
+
+  @override
+  String get locationServicesDisabled =>
+      'Servicios de ubicación deshabilitados';
+
+  @override
+  String get locationPermissionDenied => 'Permiso de ubicación denegado';
+
+  @override
+  String get unableToGetLocation => 'No se puede obtener la ubicación';
+
+  @override
+  String get locationDetected => 'Ubicación detectada';
+
+  @override
+  String get police => 'Policía';
+
+  @override
+  String get ambulance => 'Ambulancia';
+
+  @override
+  String get fire => 'Bomberos';
+
+  @override
+  String get women => 'Mujeres';
+
+  @override
+  String get child => 'Niño';
+
+  @override
+  String get add => 'Agregar';
+
+  @override
+  String get name => 'Nombre';
+
+  @override
+  String get contactNumber => 'Número de contacto';
+
+  @override
+  String get relation => 'Relación';
 }

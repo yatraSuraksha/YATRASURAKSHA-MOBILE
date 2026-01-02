@@ -352,4 +352,85 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get threeToFiveMinutes => '3〜5分';
+
+  @override
+  String get logoutDialogTitle => 'ログアウト';
+
+  @override
+  String get logoutDialogMessage => '本当にログアウトしますか？';
+
+  @override
+  String get signingOut => 'サインアウト中...';
+
+  @override
+  String get completed => '完了';
+
+  @override
+  String get completedTabContent => '完了タブコンテンツ';
+
+  @override
+  String get checkAgain => '再確認';
+
+  @override
+  String get enableLocationServices => '位置情報サービスを有効にする';
+
+  @override
+  String get enableAppPermissions => 'アプリの権限を有効にする';
+
+  @override
+  String get permissionStatus => '権限のステータス';
+
+  @override
+  String get locationServices => '位置情報サービス';
+
+  @override
+  String get backgroundLocation => 'バックグラウンド位置情報';
+
+  @override
+  String get takePhoto => '写真を撮る';
+
+  @override
+  String get fromGallery => 'ギャラリーから';
+
+  @override
+  String get detectingLocation => '位置を検出中...';
+
+  @override
+  String get locationServicesDisabled => '位置情報サービスが無効';
+
+  @override
+  String get locationPermissionDenied => '位置情報の許可が拒否されました';
+
+  @override
+  String get unableToGetLocation => '位置情報を取得できません';
+
+  @override
+  String get locationDetected => '位置情報を検出しました';
+
+  @override
+  String get police => '警察';
+
+  @override
+  String get ambulance => '救急車';
+
+  @override
+  String get fire => '消防';
+
+  @override
+  String get women => '女性';
+
+  @override
+  String get child => '子供';
+
+  @override
+  String get add => '追加';
+
+  @override
+  String get name => '名前';
+
+  @override
+  String get contactNumber => '連絡先番号';
+
+  @override
+  String get relation => '関係';
 }

@@ -365,4 +365,85 @@ class AppLocalizationsKn extends AppLocalizations {
 
   @override
   String get threeToFiveMinutes => '3-5 ನಿಮಿಷಗಳು';
+
+  @override
+  String get logoutDialogTitle => 'ಲಾಗ್‌ಆಉಟ್';
+
+  @override
+  String get logoutDialogMessage => 'ನೀವು ಲಾಗ್‌ಆಉಟ್ ಮಾಡಲು ನಿಶ್ಚಿತವಿದ್ದೀರಾ?';
+
+  @override
+  String get signingOut => 'ಸೈನ್ ಆಉಟ್ ಆಗುತ್ತಿದೆ...';
+
+  @override
+  String get completed => 'ಪೂರ್ಣಗೊಂಡಿದೆ';
+
+  @override
+  String get completedTabContent => 'ಪೂರ್ಣಗೊಂಡ ಟ್ಯಾಬ್ ವಿಷಯ';
+
+  @override
+  String get checkAgain => 'ಮತ್ತೆ ಪರಿಶೀಲಿಸಿ';
+
+  @override
+  String get enableLocationServices => 'ಸ್ಥಳ ಸೇವೆಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ';
+
+  @override
+  String get enableAppPermissions => 'ಅಪ್ಲಿಕೇಶನ್ ಅನುಮತಿಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ';
+
+  @override
+  String get permissionStatus => 'ಅನುಮತಿ ಸ್ಥಿತಿ';
+
+  @override
+  String get locationServices => 'ಸ್ಥಳ ಸೇವೆಗಳು';
+
+  @override
+  String get backgroundLocation => 'ಹಿನ್ನೆಲೆ ಸ್ಥಳ';
+
+  @override
+  String get takePhoto => 'ಫೋಟೋ ತೆಗೆಯಿರಿ';
+
+  @override
+  String get fromGallery => 'ಗ್ಯಾಲರಿಯಿಂದ';
+
+  @override
+  String get detectingLocation => 'ಸ್ಥಳವನ್ನು ಪತ್ತೆ ಮಾಡಲಾಗುತ್ತಿದೆ...';
+
+  @override
+  String get locationServicesDisabled => 'ಸ್ಥಳ ಸೇವೆಗಳು ನಿಷ್ಕ್ರಿಯಗೊಂಡಿವೆ';
+
+  @override
+  String get locationPermissionDenied => 'ಸ್ಥಳ ಅನುಮತಿ ನಿರಾಕರಿಸಲಾಗಿದೆ';
+
+  @override
+  String get unableToGetLocation => 'ಸ್ಥಳವನ್ನು ಪಡೆಯಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ';
+
+  @override
+  String get locationDetected => 'ಸ್ಥಳ ಪತ್ತೆಯಾಗಿದೆ';
+
+  @override
+  String get police => 'ಪೊಲೀಸ್';
+
+  @override
+  String get ambulance => 'ಆಂಬ್ಯುಲೆನ್ಸ್';
+
+  @override
+  String get fire => 'ಅಗ್ನಿಶಾಮಕ';
+
+  @override
+  String get women => 'ಮಹಿಳೆ';
+
+  @override
+  String get child => 'ಮಗು';
+
+  @override
+  String get add => 'ಸೇರಿಸು';
+
+  @override
+  String get name => 'ಹೆಸರು';
+
+  @override
+  String get contactNumber => 'ಸಂಪರ್ಕ ಸಂಖ್ಯೆ';
+
+  @override
+  String get relation => 'ಸಂಬಂಧ';
 }
