@@ -11,6 +11,10 @@ import 'package:yatra_suraksha_app/const/app_theme.dart';
 import 'package:yatra_suraksha_app/l10n/app_localizations.dart';
 import 'package:yatra_suraksha_app/pages/home/nearby_places_page.dart';
 import 'package:yatra_suraksha_app/pages/home/first_aid_page.dart';
+import 'package:yatra_suraksha_app/backend/services/voice_recognition_service.dart';
+import 'package:yatra_suraksha_app/backend/services/gemini_ai_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yatra_suraksha_app/backend/models/emergency_contact.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
@@ -29,6 +33,15 @@ class _HomeTabState extends State<HomeTab> {
   bool _isLoadingLocation = true;
   StreamSubscription<Position>? _positionSubscription;
 
+  // Voice recognition and AI services
+  final VoiceRecognitionService _voiceService = VoiceRecognitionService();
+  final GeminiAIService _aiService = GeminiAIService();
+  bool _isListeningForHelp = false;
+  String _listeningStatus = '';
+
+  // Emergency contacts storage
+  List<EmergencyContact> _emergencyContacts = [];
+
   // Emergency helpline numbers (India)
   static const String womenHelpline = '9963037812'; // Women Helpline
   static const String policeHelpline = '9963037812'; // Police
@@ -39,12 +52,14 @@ class _HomeTabState extends State<HomeTab> {
   void initState() {
     super.initState();
     _initializeLocation();
+    _loadEmergencyContacts();
   }
 
   @override
   void dispose() {
     _countdownTimer?.cancel();
     _positionSubscription?.cancel();
+    _voiceService.dispose();
     super.dispose();
   }
 
@@ -168,6 +183,53 @@ class _HomeTabState extends State<HomeTab> {
     }
   }
 
+  /// Load emergency contacts from SharedPreferences
+  Future<void> _loadEmergencyContacts() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final contactsJson = prefs.getString('emergency_contacts');
+
+      if (contactsJson != null) {
+        final List<dynamic> decoded = json.decode(contactsJson);
+        setState(() {
+          _emergencyContacts =
+              decoded.map((item) => EmergencyContact.fromJson(item)).toList();
+        });
+      }
+    } catch (e) {
+      print('Error loading emergency contacts: $e');
+    }
+  }
+
+  /// Save emergency contacts to SharedPreferences
+  Future<void> _saveEmergencyContacts() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final contactsJson = json.encode(
+        _emergencyContacts.map((contact) => contact.toJson()).toList(),
+      );
+      await prefs.setString('emergency_contacts', contactsJson);
+    } catch (e) {
+      print('Error saving emergency contacts: $e');
+    }
+  }
+
+  /// Add a new emergency contact
+  Future<void> _addEmergencyContact(EmergencyContact contact) async {
+    setState(() {
+      _emergencyContacts.add(contact);
+    });
+    await _saveEmergencyContacts();
+  }
+
+  /// Delete an emergency contact
+  Future<void> _deleteEmergencyContact(int index) async {
+    setState(() {
+      _emergencyContacts.removeAt(index);
+    });
+    await _saveEmergencyContacts();
+  }
+
   void startCountdown(int seconds) {
     _countdownTimer?.cancel();
 
@@ -222,6 +284,10 @@ class _HomeTabState extends State<HomeTab> {
 
                       // Simple SOS Button
                       _buildSOSButton(),
+                      const SizedBox(height: 20),
+
+                      // Voice-activated SOS Button
+                      _buildVoiceSOSButton(),
                       const SizedBox(height: 40),
 
                       // Emergency Action Cards - Responsive Layout
@@ -281,6 +347,7 @@ class _HomeTabState extends State<HomeTab> {
                     ],
                   ),
                   const SizedBox(height: 30),
+                  // Emergency services - 3 per row layout
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -296,12 +363,16 @@ class _HomeTabState extends State<HomeTab> {
                         },
                       ),
                       _buildContactCard(
-                        "Ambulan..",
+                        "Ambulance",
                         "108",
                         "assets/images/contact2.jpg",
                         Icons.local_hospital_outlined,
                         true,
-                        () => _makeCall(ambulanceHelpline),
+                        () => {
+                          startCountdown(5),
+                          _getConfirmation(
+                              context, "Ambulance", ambulanceHelpline)
+                        },
                       ),
                       _buildContactCard(
                         "Fire",
@@ -309,10 +380,14 @@ class _HomeTabState extends State<HomeTab> {
                         "assets/images/contact3.jpg",
                         Icons.fire_extinguisher,
                         true,
-                        () => _makeCall(fireHelpline),
+                        () => {
+                          startCountdown(5),
+                          _getConfirmation(context, "Fire", fireHelpline)
+                        },
                       ),
                     ],
                   ),
+                  const SizedBox(height: 12),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -322,7 +397,11 @@ class _HomeTabState extends State<HomeTab> {
                         "assets/images/contact1.jpg",
                         Icons.woman,
                         true,
-                        () => _makeCall(womenHelpline),
+                        () => {
+                          startCountdown(5),
+                          _getConfirmation(
+                              context, "Women Helpline", womenHelpline)
+                        },
                       ),
                       _buildContactCard(
                         "Child",
@@ -330,7 +409,10 @@ class _HomeTabState extends State<HomeTab> {
                         "assets/images/contact2.jpg",
                         Icons.child_care,
                         true,
-                        () => _makeCall('1098'),
+                        () => {
+                          startCountdown(5),
+                          _getConfirmation(context, "Child Helpline", '1098')
+                        },
                       ),
                       _buildContactCard(
                         "Add",
@@ -342,6 +424,21 @@ class _HomeTabState extends State<HomeTab> {
                       ),
                     ],
                   ),
+                  // User's saved emergency contacts
+                  if (_emergencyContacts.isNotEmpty) ...[
+                    const SizedBox(height: 20),
+                    Text(
+                      "Your Contacts",
+                      style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: const Color.fromARGB(221, 0, 4, 46),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    // Display saved contacts in rows of 3
+                    ..._buildContactRows(_emergencyContacts),
+                  ],
                 ],
               ),
             ),
@@ -471,6 +568,175 @@ class _HomeTabState extends State<HomeTab> {
         ),
       ),
     );
+  }
+
+  /// Build the voice-activated SOS button
+  Widget _buildVoiceSOSButton() {
+    return Column(
+      children: [
+        GestureDetector(
+          onTap:
+              _isListeningForHelp ? _stopVoiceListening : _startVoiceListening,
+          child: Container(
+            height: 80,
+            width: 80,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                colors: _isListeningForHelp
+                    ? [
+                        const Color.fromARGB(255, 255, 152, 0),
+                        const Color.fromARGB(255, 255, 87, 34),
+                      ]
+                    : [
+                        const Color.fromARGB(255, 76, 175, 80),
+                        const Color.fromARGB(255, 56, 142, 60),
+                      ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+              border: Border.all(
+                width: 4,
+                color: _isListeningForHelp
+                    ? const Color.fromARGB(255, 255, 167, 38)
+                    : const Color.fromARGB(255, 129, 199, 132),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: (_isListeningForHelp ? Colors.orange : Colors.green)
+                      .withOpacity(0.3),
+                  blurRadius: 15,
+                  spreadRadius: 5,
+                ),
+              ],
+            ),
+            child: Icon(
+              _isListeningForHelp ? Icons.mic : Icons.mic_none,
+              size: 36,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          _isListeningForHelp ? 'Listening...' : 'Tap to speak for help',
+          style: GoogleFonts.poppins(
+            fontSize: 12,
+            color: Colors.grey[700],
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        if (_listeningStatus.isNotEmpty) ...[
+          const SizedBox(height: 4),
+          Text(
+            _listeningStatus,
+            style: GoogleFonts.poppins(
+              fontSize: 11,
+              color: Colors.grey[600],
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+
+  /// Start listening for voice input
+  Future<void> _startVoiceListening() async {
+    setState(() {
+      _isListeningForHelp = true;
+      _listeningStatus = 'Initializing...';
+    });
+
+    try {
+      HapticFeedback.mediumImpact();
+
+      await _voiceService.startListening(
+        onResult: (String recognizedText) async {
+          setState(() {
+            _listeningStatus = 'Processing: "$recognizedText"';
+          });
+
+          // Use Gemini AI to check if this is a help request
+          final isHelp = await _aiService.isHelpRequest(recognizedText);
+
+          if (isHelp) {
+            // Trigger SOS
+            setState(() {
+              _listeningStatus = 'Emergency detected! Triggering SOS...';
+              _isListeningForHelp = false;
+            });
+
+            HapticFeedback.heavyImpact();
+
+            // Wait a moment for user to see the message
+            await Future.delayed(const Duration(milliseconds: 500));
+
+            // Trigger the emergency
+            if (mounted) {
+              _triggerEmergency(context);
+            }
+          } else {
+            setState(() {
+              _listeningStatus = 'No emergency detected';
+              _isListeningForHelp = false;
+            });
+
+            // Clear status after 2 seconds
+            Future.delayed(const Duration(seconds: 2), () {
+              if (mounted) {
+                setState(() {
+                  _listeningStatus = '';
+                });
+              }
+            });
+          }
+        },
+        onListeningStateChanged: (bool isListening) {
+          if (mounted) {
+            setState(() {
+              _isListeningForHelp = isListening;
+              if (isListening) {
+                _listeningStatus = 'Speak now...';
+              }
+            });
+          }
+        },
+      );
+    } catch (e) {
+      setState(() {
+        _isListeningForHelp = false;
+        _listeningStatus = 'Error: ${e.toString()}';
+      });
+
+      // Clear error after 3 seconds
+      Future.delayed(const Duration(seconds: 3), () {
+        if (mounted) {
+          setState(() {
+            _listeningStatus = '';
+          });
+        }
+      });
+    }
+  }
+
+  /// Stop voice listening
+  Future<void> _stopVoiceListening() async {
+    await _voiceService.stopListening();
+    setState(() {
+      _isListeningForHelp = false;
+      _listeningStatus = 'Cancelled';
+    });
+
+    // Clear status after 1 second
+    Future.delayed(const Duration(seconds: 1), () {
+      if (mounted) {
+        setState(() {
+          _listeningStatus = '';
+        });
+      }
+    });
   }
 
   /// Build an emergency action card with gesture detection
@@ -858,8 +1124,8 @@ class _HomeTabState extends State<HomeTab> {
       },
       child: Container(
         width: 80,
-        margin: const EdgeInsets.only(right: 12, bottom: 12),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
@@ -885,8 +1151,11 @@ class _HomeTabState extends State<HomeTab> {
             const SizedBox(height: 8),
             Text(
               name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
-                fontSize: 14,
+                fontSize: 13,
                 fontWeight: FontWeight.w600,
                 color: AppTheme.primaryTextColor,
               ),
@@ -894,8 +1163,11 @@ class _HomeTabState extends State<HomeTab> {
             const SizedBox(height: 4),
             Text(
               relation,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
-                fontSize: 12,
+                fontSize: 11,
                 color: AppTheme.secondaryTextColor,
               ),
             ),
@@ -903,6 +1175,124 @@ class _HomeTabState extends State<HomeTab> {
         ),
       ),
     );
+  }
+
+  /// Build a saved contact card with delete option
+  Widget _buildSavedContactCard(EmergencyContact contact, int index) {
+    return GestureDetector(
+      onTap: () {
+        HapticFeedback.lightImpact();
+        _makeCall(contact.phoneNumber);
+      },
+      onLongPress: () {
+        HapticFeedback.mediumImpact();
+        _showDeleteContactDialog(contact, index);
+      },
+      child: Container(
+        width: 80,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  height: 60,
+                  width: 60,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                    shape: BoxShape.circle,
+                    border: Border.all(width: 2, color: AppTheme.primaryColor),
+                  ),
+                  child: Text(
+                    contact.name.substring(0, 1).toUpperCase(),
+                    style: GoogleFonts.poppins(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                      color: AppTheme.primaryColor,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  right: -2,
+                  top: -2,
+                  child: GestureDetector(
+                    onTap: () {
+                      HapticFeedback.lightImpact();
+                      _showDeleteContactDialog(contact, index);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                        border: Border.all(width: 2, color: Colors.white),
+                      ),
+                      child: const Icon(
+                        Icons.close,
+                        size: 12,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              contact.name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.poppins(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: AppTheme.primaryTextColor,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              contact.relation,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.poppins(
+                fontSize: 11,
+                color: AppTheme.secondaryTextColor,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Build rows of contacts (3 per row)
+  List<Widget> _buildContactRows(List<EmergencyContact> contacts) {
+    List<Widget> rows = [];
+    for (int i = 0; i < contacts.length; i += 3) {
+      final end = (i + 3 < contacts.length) ? i + 3 : contacts.length;
+      final rowContacts = contacts.sublist(i, end);
+
+      rows.add(
+        Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              for (int j = 0; j < rowContacts.length; j++)
+                _buildSavedContactCard(rowContacts[j], i + j),
+              // Add spacers for incomplete rows to maintain spacing
+              for (int j = rowContacts.length; j < 3; j++)
+                const SizedBox(width: 80),
+            ],
+          ),
+        ),
+      );
+    }
+    return rows;
   }
 
   void _showSOSDialog(BuildContext context) {
@@ -1148,31 +1538,44 @@ class _HomeTabState extends State<HomeTab> {
                     const SizedBox(width: 12),
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (nameController.text.isNotEmpty &&
                               phoneController.text.isNotEmpty &&
                               relationController.text.isNotEmpty) {
-                            Navigator.of(context).pop();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Row(
-                                  children: [
-                                    const Icon(Icons.check_circle,
-                                        color: Colors.white),
-                                    const SizedBox(width: 12),
-                                    Text(
-                                      'Emergency contact added successfully!',
-                                      style: GoogleFonts.poppins(),
-                                    ),
-                                  ],
-                                ),
-                                backgroundColor: AppTheme.primaryColor,
-                                behavior: SnackBarBehavior.floating,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
+                            // Create and save the contact
+                            final newContact = EmergencyContact(
+                              name: nameController.text.trim(),
+                              phoneNumber: phoneController.text.trim(),
+                              relation: relationController.text.trim(),
                             );
+
+                            await _addEmergencyContact(newContact);
+
+                            if (mounted) {
+                              Navigator.of(context).pop();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Row(
+                                    children: [
+                                      const Icon(Icons.check_circle,
+                                          color: Colors.white),
+                                      const SizedBox(width: 12),
+                                      Expanded(
+                                        child: Text(
+                                          'Emergency contact added successfully!',
+                                          style: GoogleFonts.poppins(),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  backgroundColor: AppTheme.primaryColor,
+                                  behavior: SnackBarBehavior.floating,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              );
+                            }
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -1218,6 +1621,130 @@ class _HomeTabState extends State<HomeTab> {
                 ),
               ],
             ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showDeleteContactDialog(EmergencyContact contact, int index) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          contentPadding: const EdgeInsets.all(24),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.red.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.delete_outline,
+                  color: Colors.red,
+                  size: 48,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                'Delete Contact',
+                style: GoogleFonts.poppins(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black87,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                'Are you sure you want to delete ${contact.name}?',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                  fontSize: 14,
+                  color: Colors.grey[600],
+                ),
+              ),
+              const SizedBox(height: 24),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.grey[300],
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Text(
+                        'Cancel',
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        await _deleteEmergencyContact(index);
+                        if (mounted) {
+                          Navigator.of(context).pop();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Row(
+                                children: [
+                                  const Icon(Icons.check_circle,
+                                      color: Colors.white),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Text(
+                                      'Contact deleted successfully',
+                                      style: GoogleFonts.poppins(),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              backgroundColor: Colors.red,
+                              behavior: SnackBarBehavior.floating,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 0,
+                      ),
+                      child: Text(
+                        'Delete',
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         );
       },
