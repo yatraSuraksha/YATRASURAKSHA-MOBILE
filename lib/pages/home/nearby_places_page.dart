@@ -1,18 +1,19 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:yatra_suraksha_app/backend/services/places_service.dart';
+import 'package:yatra_suraksha_app/backend/services/azure_maps_service.dart';
 import 'package:yatra_suraksha_app/const/app_theme.dart';
 
 /// Enum to define the type of places to display
 enum PlaceType { hospital, police }
 
 /// Enhanced Page to display nearby hospitals or police stations
-/// with both List View and Map View
+/// with both List View and Map View using Azure Maps
 class NearbyPlacesPage extends StatefulWidget {
   final PlaceType placeType;
   final Position? userPosition;
@@ -29,15 +30,14 @@ class NearbyPlacesPage extends StatefulWidget {
 
 class _NearbyPlacesPageState extends State<NearbyPlacesPage>
     with SingleTickerProviderStateMixin {
-  final PlacesService _placesService = PlacesService();
+  final AzureMapsService _azureMapsService = AzureMapsService();
   List<NearbyPlace> _places = [];
   bool _isLoading = true;
   String? _error;
   Position? _currentPosition;
 
   // Map related variables
-  GoogleMapController? _mapController;
-  Set<Marker> _markers = {};
+  MapController? _mapController;
   NearbyPlace? _selectedPlace;
 
   // Tab controller for switching views
@@ -49,6 +49,7 @@ class _NearbyPlacesPageState extends State<NearbyPlacesPage>
   @override
   void initState() {
     super.initState();
+    _mapController = MapController();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_onTabChanged);
     _loadPlaces();
@@ -82,32 +83,6 @@ class _NearbyPlacesPageState extends State<NearbyPlacesPage>
       setState(() {
         _currentPosition = position;
       });
-      _updateUserMarker();
-    });
-  }
-
-  /// Update user marker on the map
-  void _updateUserMarker() {
-    if (_currentPosition == null) return;
-
-    setState(() {
-      // Remove old user marker and add new one
-      _markers
-          .removeWhere((marker) => marker.markerId.value == 'user_location');
-      _markers.add(
-        Marker(
-          markerId: const MarkerId('user_location'),
-          position:
-              LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
-          icon:
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
-          infoWindow: const InfoWindow(
-            title: 'Your Location',
-            snippet: 'You are here',
-          ),
-          zIndex: 2,
-        ),
-      );
     });
   }
 
@@ -133,22 +108,19 @@ class _NearbyPlacesPageState extends State<NearbyPlacesPage>
         return;
       }
 
-      // Fetch places based on type
+      // Fetch places based on type using Azure Maps
       List<NearbyPlace> places;
       if (widget.placeType == PlaceType.hospital) {
-        places = await _placesService.getNearbyHospitals(_currentPosition!);
+        places = await _azureMapsService.getNearbyHospitals(_currentPosition!);
       } else {
         places =
-            await _placesService.getNearbyPoliceStations(_currentPosition!);
+            await _azureMapsService.getNearbyPoliceStations(_currentPosition!);
       }
 
       setState(() {
         _places = places;
         _isLoading = false;
       });
-
-      // Generate markers after loading places
-      _generateMarkers();
     } catch (e) {
       setState(() {
         _error = 'Failed to load nearby places. Please try again.';
@@ -157,62 +129,7 @@ class _NearbyPlacesPageState extends State<NearbyPlacesPage>
     }
   }
 
-  /// Generate map markers for all places and user location
-  void _generateMarkers() {
-    if (_currentPosition == null) return;
-
-    final Set<Marker> markers = {};
-
-    // Add user location marker
-    markers.add(
-      Marker(
-        markerId: const MarkerId('user_location'),
-        position:
-            LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
-        infoWindow: const InfoWindow(
-          title: 'Your Location',
-          snippet: 'You are here',
-        ),
-        zIndex: 2,
-      ),
-    );
-
-    // Add place markers
-    for (int i = 0; i < _places.length; i++) {
-      final place = _places[i];
-      markers.add(
-        Marker(
-          markerId: MarkerId(place.id),
-          position: LatLng(place.latitude, place.longitude),
-          icon: BitmapDescriptor.defaultMarkerWithHue(
-            widget.placeType == PlaceType.hospital
-                ? BitmapDescriptor.hueRed
-                : BitmapDescriptor.hueBlue,
-          ),
-          infoWindow: InfoWindow(
-            title: place.name,
-            snippet: '${place.formattedDistance} away',
-            onTap: () => _showPlaceDetails(place),
-          ),
-          onTap: () => _onMarkerTapped(place),
-          zIndex: 1,
-        ),
-      );
-    }
-
-    setState(() {
-      _markers = markers;
-    });
-  }
-
   void _onMarkerTapped(NearbyPlace place) {
-    setState(() {
-      _selectedPlace = place;
-    });
-  }
-
-  void _showPlaceDetails(NearbyPlace place) {
     setState(() {
       _selectedPlace = place;
     });
@@ -436,7 +353,7 @@ class _NearbyPlacesPageState extends State<NearbyPlacesPage>
     );
   }
 
-  /// Build the map view with markers
+  /// Build the map view with Azure Maps tiles and markers
   Widget _buildMapView() {
     if (_currentPosition == null) {
       return const Center(
@@ -446,32 +363,79 @@ class _NearbyPlacesPageState extends State<NearbyPlacesPage>
 
     return Stack(
       children: [
-        // Google Map
-        GoogleMap(
-          initialCameraPosition: CameraPosition(
-            target:
+        // Azure Maps using flutter_map
+        FlutterMap(
+          mapController: _mapController,
+          options: MapOptions(
+            initialCenter:
                 LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
-            zoom: 14,
+            initialZoom: 14,
+            onTap: (tapPosition, point) {
+              // Deselect place when tapping on map
+              setState(() {
+                _selectedPlace = null;
+              });
+            },
           ),
-          onMapCreated: (GoogleMapController controller) {
-            _mapController = controller;
-          },
-          markers: _markers,
-          myLocationEnabled: true,
-          myLocationButtonEnabled: false,
-          zoomControlsEnabled: true,
-          zoomGesturesEnabled: true,
-          scrollGesturesEnabled: true,
-          rotateGesturesEnabled: true,
-          tiltGesturesEnabled: true,
-          compassEnabled: true,
-          mapToolbarEnabled: true,
-          onTap: (_) {
-            // Deselect place when tapping on map
-            setState(() {
-              _selectedPlace = null;
-            });
-          },
+          children: [
+            // Azure Maps Tile Layer
+            TileLayer(
+              urlTemplate: AzureMapsService.getTileUrl(),
+              userAgentPackageName: 'com.example.yatra_suraksha_app',
+              maxZoom: 19,
+            ),
+            // User location marker
+            MarkerLayer(
+              markers: [
+                // User location marker
+                Marker(
+                  point: LatLng(
+                      _currentPosition!.latitude, _currentPosition!.longitude),
+                  width: 40,
+                  height: 40,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.blue.withOpacity(0.3),
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.blue, width: 2),
+                    ),
+                    child: const Icon(
+                      Icons.my_location,
+                      color: Colors.blue,
+                      size: 20,
+                    ),
+                  ),
+                ),
+                // Place markers
+                ..._places.map((place) => Marker(
+                      point: LatLng(place.latitude, place.longitude),
+                      width: 40,
+                      height: 40,
+                      child: GestureDetector(
+                        onTap: () => _onMarkerTapped(place),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: _themeColor,
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: _themeColor.withOpacity(0.3),
+                                blurRadius: 6,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: Icon(
+                            _placeIcon,
+                            color: Colors.white,
+                            size: 22,
+                          ),
+                        ),
+                      ),
+                    )),
+              ],
+            ),
+          ],
         ),
 
         // Map Legend
@@ -521,6 +485,26 @@ class _NearbyPlacesPageState extends State<NearbyPlacesPage>
                   ),
                 ),
               ],
+            ),
+          ),
+        ),
+
+        // Azure Maps attribution
+        Positioned(
+          bottom: _selectedPlace != null ? 180 : 8,
+          right: 8,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.8),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Text(
+              '© Azure Maps',
+              style: GoogleFonts.poppins(
+                fontSize: 10,
+                color: Colors.grey[700],
+              ),
             ),
           ),
         ),
@@ -781,22 +765,18 @@ class _NearbyPlacesPageState extends State<NearbyPlacesPage>
 
   void _centerOnUserLocation() {
     if (_currentPosition != null && _mapController != null) {
-      _mapController!.animateCamera(
-        CameraUpdate.newLatLngZoom(
-          LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
-          15,
-        ),
+      _mapController!.move(
+        LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
+        15,
       );
     }
   }
 
   void _focusOnPlace(NearbyPlace place) {
     if (_mapController != null) {
-      _mapController!.animateCamera(
-        CameraUpdate.newLatLngZoom(
-          LatLng(place.latitude, place.longitude),
-          17,
-        ),
+      _mapController!.move(
+        LatLng(place.latitude, place.longitude),
+        17,
       );
     }
   }
@@ -1062,22 +1042,33 @@ class _NearbyPlacesPageState extends State<NearbyPlacesPage>
   }
 
   Future<void> _openMaps(NearbyPlace place) async {
+    // Use a generic maps URL that works on all platforms
+    // This will open in the default maps app
     final url = Uri.parse(
-      'https://www.google.com/maps/dir/?api=1'
-      '&origin=${_currentPosition!.latitude},${_currentPosition!.longitude}'
-      '&destination=${place.latitude},${place.longitude}'
-      '&travelmode=driving',
+      'https://www.openstreetmap.org/directions'
+      '?engine=fossgis_osrm_car'
+      '&route=${_currentPosition!.latitude},${_currentPosition!.longitude}'
+      ';${place.latitude},${place.longitude}',
     );
 
+    // Try Azure Maps directions first, fall back to OSM
     if (await canLaunchUrl(url)) {
       await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      // Fallback to simple coordinates URL
+      final fallbackUrl = Uri.parse(
+        'geo:${place.latitude},${place.longitude}?q=${place.latitude},${place.longitude}(${Uri.encodeComponent(place.name)})',
+      );
+      if (await canLaunchUrl(fallbackUrl)) {
+        await launchUrl(fallbackUrl, mode: LaunchMode.externalApplication);
+      }
     }
   }
 
   Future<void> _shareLocation(NearbyPlace place) async {
     final text = '${place.name}\n${place.address}\n'
         '${place.phoneNumber != null ? 'Phone: ${place.phoneNumber}\n' : ''}'
-        'https://www.google.com/maps/search/?api=1&query=${place.latitude},${place.longitude}';
+        'https://www.openstreetmap.org/?mlat=${place.latitude}&mlon=${place.longitude}#map=17/${place.latitude}/${place.longitude}';
 
     // Show share options
     showModalBottomSheet(

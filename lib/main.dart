@@ -21,9 +21,10 @@ void main() async {
 
   // Load environment variables
   try {
-    await dotenv.load(fileName: ".env");
+    await dotenv.load(fileName: ".env/.env");
   } catch (e) {
     // Failed to load .env file, using default configuration
+    debugPrint('Failed to load .env file: $e');
   }
 
   SystemChrome.setPreferredOrientations([

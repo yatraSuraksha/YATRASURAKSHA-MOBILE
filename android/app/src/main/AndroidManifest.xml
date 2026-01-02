@@ -70,9 +70,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <meta-data 
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDkKo7tMtHDvaJz0hPhO613pqt0ygcH7G8"/>
+        <!-- Azure Maps - No native SDK needed, using flutter_map with REST API -->
     </application>
     
     <!-- Queries for app visibility -->
