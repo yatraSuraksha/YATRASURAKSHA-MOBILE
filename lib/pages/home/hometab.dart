@@ -7,10 +7,13 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:provider/provider.dart';
 import 'package:yatra_suraksha_app/const/app_theme.dart';
 import 'package:yatra_suraksha_app/l10n/app_localizations.dart';
 import 'package:yatra_suraksha_app/pages/home/nearby_places_page.dart';
 import 'package:yatra_suraksha_app/pages/home/first_aid_page.dart';
+import 'package:yatra_suraksha_app/pages/home/sos_recording_screen.dart';
+import 'package:yatra_suraksha_app/backend/services/sos_video_service.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
@@ -1249,28 +1252,92 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
-  void _triggerEmergency(BuildContext context) {
-    // Call police helpline
-    _makeCall(policeHelpline);
+  void _triggerEmergency(BuildContext context) async {
+    // Get video service
+    final videoService = Provider.of<SOSVideoService>(context, listen: false);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            const Icon(Icons.check_circle, color: Colors.white),
-            const SizedBox(width: 12),
-            Text(
-              AppLocalizations.of(context)!.emergencySOSSent,
-              style: GoogleFonts.poppins(),
-            ),
-          ],
-        ),
-        backgroundColor: Colors.green,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
+    // Show loading indicator
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(color: Colors.white),
       ),
     );
+
+    // Initialize camera and start recording IMMEDIATELY
+    final cameraInitialized = await videoService.initialize();
+
+    if (cameraInitialized) {
+      // Start recording in parallel with making the call
+      await Future.wait([
+        videoService.startSOSRecording(),
+        _makeCall(policeHelpline),
+      ]);
+
+      // Close loading dialog
+      if (mounted) Navigator.of(context).pop();
+
+      // Navigate to recording screen (recording already started)
+      if (mounted) {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const SOSRecordingScreen(),
+          ),
+        );
+      }
+
+      // Show confirmation
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.check_circle, color: Colors.white),
+                const SizedBox(width: 12),
+                Text(
+                  AppLocalizations.of(context)!.emergencySOSSent,
+                  style: GoogleFonts.poppins(),
+                ),
+              ],
+            ),
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
+      }
+    } else {
+      // Close loading dialog
+      if (mounted) Navigator.of(context).pop();
+
+      // Show error
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.error, color: Colors.white),
+                const SizedBox(width: 12),
+                Text(
+                  'Failed to start camera. Calling emergency...',
+                  style: GoogleFonts.poppins(),
+                ),
+              ],
+            ),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
+
+        // Still make the call even if camera fails
+        await _makeCall(policeHelpline);
+      }
+    }
   }
 }
