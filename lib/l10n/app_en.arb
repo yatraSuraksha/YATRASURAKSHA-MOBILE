@@ -1,0 +1,473 @@
+{
+  "@@locale": "en",
+  "appTitle": "Yatra Suraksha",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "welcome": "Welcome",
+  "@welcome": {
+    "description": "Welcome message"
+  },
+  "home": "Home",
+  "@home": {
+    "description": "Home tab"
+  },
+  "profile": "Profile",
+  "@profile": {
+    "description": "Profile tab"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings tab"
+  },
+  "language": "Language",
+  "@language": {
+    "description": "Language setting"
+  },
+  "english": "English",
+  "@english": {
+    "description": "English language option"
+  },
+  "hindi": "हिंदी",
+  "@hindi": {
+    "description": "Hindi language option"
+  },
+  "login": "Login",
+  "@login": {
+    "description": "Login button"
+  },
+  "logout": "Logout",
+  "@logout": {
+    "description": "Logout button"
+  },
+  "email": "Email",
+  "@email": {
+    "description": "Email field"
+  },
+  "password": "Password",
+  "@password": {
+    "description": "Password field"
+  },
+  "forgotPassword": "Forgot Password?",
+  "@forgotPassword": {
+    "description": "Forgot password link"
+  },
+  "signUp": "Sign Up",
+  "@signUp": {
+    "description": "Sign up button"
+  },
+  "selectLanguage": "Select Language",
+  "@selectLanguage": {
+    "description": "Select language dialog title"
+  },
+  "location": "Location",
+  "@location": {
+    "description": "Location"
+  },
+  "documents": "Documents",
+  "@documents": {
+    "description": "Documents"
+  },
+  "verification": "Verification",
+  "@verification": {
+    "description": "Verification"
+  },
+  "trip": "Trip",
+  "@trip": {
+    "description": "Trip"
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Save button"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button"
+  },
+  "confirm": "Confirm",
+  "@confirm": {
+    "description": "Confirm button"
+  },
+  "error": "Error",
+  "@error": {
+    "description": "Error message"
+  },
+  "success": "Success",
+  "@success": {
+    "description": "Success message"
+  },
+  "touristProfile": "Tourist Profile",
+  "@touristProfile": {
+    "description": "Tourist profile section header"
+  },
+  "touristId": "Tourist ID",
+  "@touristId": {
+    "description": "Tourist ID field"
+  },
+  "digitalId": "Digital ID",
+  "@digitalId": {
+    "description": "Digital ID field"
+  },
+  "status": "Status",
+  "@status": {
+    "description": "Status field"
+  },
+  "kycStatus": "KYC Status",
+  "@kycStatus": {
+    "description": "KYC Status field"
+  },
+  "safetyScore": "Safety Score",
+  "@safetyScore": {
+    "description": "Safety Score field"
+  },
+  "refreshProfile": "Refresh Profile",
+  "@refreshProfile": {
+    "description": "Refresh profile button"
+  },
+  "updateProfileInfo": "Update your profile information",
+  "@updateProfileInfo": {
+    "description": "Refresh profile description"
+  },
+  "signOutAccount": "Sign out of your account",
+  "@signOutAccount": {
+    "description": "Logout description"
+  },
+  "changeAppLanguage": "Change app language",
+  "@changeAppLanguage": {
+    "description": "Language setting description"
+  },
+  "appName": "Yatra Suraksha",
+  "@appName": {
+    "description": "Application name"
+  },
+  "appTagline": "Safe Travel, Secure Journey",
+  "@appTagline": {
+    "description": "Application tagline"
+  },
+  "version": "Version",
+  "@version": {
+    "description": "Version text"
+  },
+  "notAvailable": "Not Available",
+  "@notAvailable": {
+    "description": "Not available text"
+  },
+  "unknown": "Unknown",
+  "@unknown": {
+    "description": "Unknown status text"
+  },
+  "refreshingProfile": "Refreshing profile...",
+  "@refreshingProfile": {
+    "description": "Refreshing profile message"
+  },
+  "profileRefreshed": "Profile refreshed!",
+  "@profileRefreshed": {
+    "description": "Profile refreshed success message"
+  },
+  "safetyMap": "Safety Map",
+  "@safetyMap": {
+    "description": "Safety Map tab"
+  },
+  "trips": "Trips",
+  "@trips": {
+    "description": "Trips tab"
+  },
+  "currentLocation": "Current Location",
+  "@currentLocation": {
+    "description": "Current location label"
+  },
+  "emergencyHelpNeeded": "Emergency help Needed ?",
+  "@emergencyHelpNeeded": {
+    "description": "Emergency help question"
+  },
+  "doubleTapToCall": "Double tap the button to Call",
+  "@doubleTapToCall": {
+    "description": "Instruction for SOS button"
+  },
+  "sos": "SOS",
+  "@sos": {
+    "description": "SOS emergency button"
+  },
+  "emergencySOS": "Emergency SOS",
+  "@emergencySOS": {
+    "description": "Emergency SOS dialog title"
+  },
+  "emergencySOSDescription": "This will send an emergency alert with your location to emergency services and your emergency contacts.",
+  "@emergencySOSDescription": {
+    "description": "Emergency SOS dialog description"
+  },
+  "sendSOS": "Send SOS",
+  "@sendSOS": {
+    "description": "Send SOS button"
+  },
+  "emergencyContacts": "Emergency Contacts",
+  "@emergencyContacts": {
+    "description": "Emergency contacts section"
+  },
+  "feelingUnsafe": "I am feeling unsafe",
+  "@feelingUnsafe": {
+    "description": "Emergency option - feeling unsafe"
+  },
+  "needMedicalHelp": "Need Medical Help",
+  "@needMedicalHelp": {
+    "description": "Emergency option - medical help"
+  },
+  "needPoliceHelp": "Need Police Help",
+  "@needPoliceHelp": {
+    "description": "Emergency option - police help"
+  },
+  "hadInjury": "I had an Injury",
+  "@hadInjury": {
+    "description": "Emergency option - injury"
+  },
+  "emergencySOSSent": "Emergency SOS sent successfully!",
+  "@emergencySOSSent": {
+    "description": "SOS sent success message"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button"
+  },
+  "welcomeToSafeTravel": "Welcome to Safe Travel",
+  "@welcomeToSafeTravel": {
+    "description": "Login page welcome title"
+  },
+  "trustedCompanionDescription": "Your trusted companion for secure and monitored travel experiences. Join thousands of travelers who prioritize safety.",
+  "@trustedCompanionDescription": {
+    "description": "Login page description"
+  },
+  "whyChooseYatraSuraksha": "Why Choose Yatra Suraksha?",
+  "@whyChooseYatraSuraksha": {
+    "description": "Features section title"
+  },
+  "realTimeLocationTracking": "Real-time Location Tracking",
+  "@realTimeLocationTracking": {
+    "description": "Feature title"
+  },
+  "stayConnectedWithLovedOnes": "Stay connected with your loved ones",
+  "@stayConnectedWithLovedOnes": {
+    "description": "Feature description"
+  },
+  "documentVerificationFeature": "Document Verification",
+  "@documentVerificationFeature": {
+    "description": "Feature title for document verification"
+  },
+  "secureIdentityVerification": "Secure identity verification process",
+  "@secureIdentityVerification": {
+    "description": "Feature description"
+  },
+  "emergencySupport247": "24/7 Emergency Support",
+  "@emergencySupport247": {
+    "description": "Feature title"
+  },
+  "roundTheClockAssistance": "Round-the-clock assistance when needed",
+  "@roundTheClockAssistance": {
+    "description": "Feature description"
+  },
+  "continueWithGoogle": "Continue with Google",
+  "@continueWithGoogle": {
+    "description": "Google login button text"
+  },
+  "signingYouIn": "Signing you in...",
+  "@signingYouIn": {
+    "description": "Loading text during login"
+  },
+  "identityVerification": "Identity Verification",
+  "@identityVerification": {
+    "description": "Document selection page title"
+  },
+  "chooseIdentityDocument": "Choose your identity document to begin the secure verification process",
+  "@chooseIdentityDocument": {
+    "description": "Document selection page description"
+  },
+  "aadhaarCard": "Aadhaar Card",
+  "@aadhaarCard": {
+    "description": "Aadhaar card document type"
+  },
+  "indianNationalIdentityCard": "Indian National Identity Card",
+  "@indianNationalIdentityCard": {
+    "description": "Aadhaar card subtitle"
+  },
+  "governmentIssued12DigitId": "Government-issued 12-digit unique identification",
+  "@governmentIssued12DigitId": {
+    "description": "Aadhaar card description"
+  },
+  "quickVerification": "Quick Verification",
+  "@quickVerification": {
+    "description": "Aadhaar feature"
+  },
+  "otpBased": "OTP Based",
+  "@otpBased": {
+    "description": "Aadhaar feature"
+  },
+  "instantResults": "Instant Results",
+  "@instantResults": {
+    "description": "Aadhaar feature"
+  },
+  "passport": "Passport",
+  "@passport": {
+    "description": "Passport document type"
+  },
+  "internationalTravelDocument": "International Travel Document",
+  "@internationalTravelDocument": {
+    "description": "Passport subtitle"
+  },
+  "governmentIssuedTravelDocument": "Government-issued travel and identity document",
+  "@governmentIssuedTravelDocument": {
+    "description": "Passport description"
+  },
+  "globalRecognition": "Global Recognition",
+  "@globalRecognition": {
+    "description": "Passport feature"
+  },
+  "photoVerification": "Photo Verification",
+  "@photoVerification": {
+    "description": "Passport feature"
+  },
+  "secure": "Secure",
+  "@secure": {
+    "description": "Document feature"
+  },
+  "continueButton": "Continue",
+  "@continueButton": {
+    "description": "Continue button"
+  },
+  "manualEntry": "Manual Entry",
+  "@manualEntry": {
+    "description": "Manual entry verification method"
+  },
+  "documentScanning": "Document Scanning",
+  "@documentScanning": {
+    "description": "Document scanning verification method"
+  },
+  "photoUpload": "Photo Upload",
+  "@photoUpload": {
+    "description": "Photo upload verification method"
+  },
+  "verification": "Verification",
+  "@verification": {
+    "description": "General verification text"
+  },
+  "verifyDocument": "Verify {document}",
+  "@verifyDocument": {
+    "description": "Verify document title",
+    "placeholders": {
+      "document": {
+        "type": "String"
+      }
+    }
+  },
+  "enterAadhaarNumber": "Enter your 12-digit Aadhaar number below",
+  "@enterAadhaarNumber": {
+    "description": "Instruction for entering Aadhaar number"
+  },
+  "enterPassportNumber": "Enter your passport number below",
+  "@enterPassportNumber": {
+    "description": "Instruction for entering passport number"
+  },
+  "positionAadhaarInFrame": "Position your Aadhaar card in the camera frame",
+  "@positionAadhaarInFrame": {
+    "description": "Instruction for scanning Aadhaar"
+  },
+  "positionPassportInFrame": "Position your passport in the camera frame",
+  "@positionPassportInFrame": {
+    "description": "Instruction for scanning passport"
+  },
+  "selectAadhaarPhoto": "Select a clear photo of your Aadhaar card",
+  "@selectAadhaarPhoto": {
+    "description": "Instruction for uploading Aadhaar photo"
+  },
+  "selectPassportPhoto": "Select a clear photo of your passport",
+  "@selectPassportPhoto": {
+    "description": "Instruction for uploading passport photo"
+  },
+  "completeVerificationProcess": "Complete the verification process",
+  "@completeVerificationProcess": {
+    "description": "General verification completion text"
+  },
+  "documentVerification": "{document} Verification",
+  "@documentVerification": {
+    "description": "Document verification page title",
+    "placeholders": {
+      "document": {
+        "type": "String"
+      }
+    }
+  },
+  "howWouldYouLikeToVerify": "How would you like to verify?",
+  "@howWouldYouLikeToVerify": {
+    "description": "Verification method selection question"
+  },
+  "pickMethodThatWorksBest": "Pick the method that works best for you",
+  "@pickMethodThatWorksBest": {
+    "description": "Verification method selection subtitle"
+  },
+  "documentScanner": "Document Scanner",
+  "@documentScanner": {
+    "description": "Document scanner method title"
+  },
+  "uploadPhoto": "Upload Photo",
+  "@uploadPhoto": {
+    "description": "Upload photo method title"
+  },
+  "typeDocumentNumber": "Type your document number",
+  "@typeDocumentNumber": {
+    "description": "Manual entry subtitle"
+  },
+  "useCameraToScan": "Use camera to scan document",
+  "@useCameraToScan": {
+    "description": "Scanner subtitle"
+  },
+  "chooseFromGallery": "Choose from gallery",
+  "@chooseFromGallery": {
+    "description": "Upload subtitle"
+  },
+  "quickAndEasy": "Quick & Easy",
+  "@quickAndEasy": {
+    "description": "Feature description"
+  },
+  "noCameraRequired": "No Camera Required",
+  "@noCameraRequired": {
+    "description": "Feature description"
+  },
+  "instant": "Instant",
+  "@instant": {
+    "description": "Feature description"
+  },
+  "autoDetect": "Auto-Detect",
+  "@autoDetect": {
+    "description": "Feature description"
+  },
+  "realTimeProcessing": "Real-time Processing",
+  "@realTimeProcessing": {
+    "description": "Feature description"
+  },
+  "highAccuracy": "High Accuracy",
+  "@highAccuracy": {
+    "description": "Feature description"
+  },
+  "useExistingPhotos": "Use Existing Photos",
+  "@useExistingPhotos": {
+    "description": "Feature description"
+  },
+  "multipleAttempts": "Multiple Attempts",
+  "@multipleAttempts": {
+    "description": "Feature description"
+  },
+  "clearQuality": "Clear Quality",
+  "@clearQuality": {
+    "description": "Feature description"
+  },
+  "oneToTwoMinutes": "1-2 minutes",
+  "@oneToTwoMinutes": {
+    "description": "Estimated time"
+  },
+  "twoToThreeMinutes": "2-3 minutes",
+  "@twoToThreeMinutes": {
+    "description": "Estimated time"
+  },
+  "threeToFiveMinutes": "3-5 minutes",
+  "@threeToFiveMinutes": {
+    "description": "Estimated time"
+  }
+}
