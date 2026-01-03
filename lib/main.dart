@@ -12,6 +12,8 @@ import 'package:yatra_suraksha_app/backend/providers/document_selection_provider
 import 'package:yatra_suraksha_app/backend/providers/verification_method_provider.dart';
 import 'package:yatra_suraksha_app/backend/providers/document_input_provider.dart';
 import 'package:yatra_suraksha_app/backend/providers/trip_details_provider.dart';
+import 'package:yatra_suraksha_app/backend/services/sos_video_service.dart';
+import 'package:yatra_suraksha_app/backend/config/api_config.dart';
 import 'package:yatra_suraksha_app/firebase_options.dart';
 import 'package:yatra_suraksha_app/pages/navigation/splash_screen.dart';
 import 'package:yatra_suraksha_app/l10n/app_localizations.dart';
@@ -31,9 +33,13 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // API configuration ready for backend integration
+  debugPrint('📡 SOS Video API: ${ApiConfig.sosVideoUploadEndpoint}');
 
   runApp(const MyApp());
 }
@@ -76,6 +82,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LocationProvider()),
         ChangeNotifierProvider(
             create: (_) => TripDetailsProvider()..initialize()),
+        ChangeNotifierProvider(create: (_) => SOSVideoService()),
       ],
       child: Consumer<LocaleProvider>(
         builder: (context, localeProvider, child) {

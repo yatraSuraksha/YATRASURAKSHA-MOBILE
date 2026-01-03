@@ -351,4 +351,85 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get threeToFiveMinutes => '3-5分钟';
+
+  @override
+  String get logoutDialogTitle => '登出';
+
+  @override
+  String get logoutDialogMessage => '您确定要登出吗？';
+
+  @override
+  String get signingOut => '正在登出...';
+
+  @override
+  String get completed => '已完成';
+
+  @override
+  String get completedTabContent => '已完成标签内容';
+
+  @override
+  String get checkAgain => '再次检查';
+
+  @override
+  String get enableLocationServices => '启用位置服务';
+
+  @override
+  String get enableAppPermissions => '启用应用权限';
+
+  @override
+  String get permissionStatus => '权限状态';
+
+  @override
+  String get locationServices => '位置服务';
+
+  @override
+  String get backgroundLocation => '后台位置';
+
+  @override
+  String get takePhoto => '拍照';
+
+  @override
+  String get fromGallery => '从相册';
+
+  @override
+  String get detectingLocation => '正在检测位置...';
+
+  @override
+  String get locationServicesDisabled => '位置服务已禁用';
+
+  @override
+  String get locationPermissionDenied => '位置权限被拒绝';
+
+  @override
+  String get unableToGetLocation => '无法获取位置';
+
+  @override
+  String get locationDetected => '位置已检测到';
+
+  @override
+  String get police => '警察';
+
+  @override
+  String get ambulance => '救护车';
+
+  @override
+  String get fire => '消防';
+
+  @override
+  String get women => '妇女';
+
+  @override
+  String get child => '儿童';
+
+  @override
+  String get add => '添加';
+
+  @override
+  String get name => '姓名';
+
+  @override
+  String get contactNumber => '联系电话';
+
+  @override
+  String get relation => '关系';
 }

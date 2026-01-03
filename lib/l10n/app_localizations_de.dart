@@ -366,4 +366,85 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get threeToFiveMinutes => '3-5 Minuten';
+
+  @override
+  String get logoutDialogTitle => 'Abmelden';
+
+  @override
+  String get logoutDialogMessage => 'Möchten Sie sich wirklich abmelden?';
+
+  @override
+  String get signingOut => 'Abmeldung läuft...';
+
+  @override
+  String get completed => 'Abgeschlossen';
+
+  @override
+  String get completedTabContent => 'Abgeschlossener Tab-Inhalt';
+
+  @override
+  String get checkAgain => 'Erneut prüfen';
+
+  @override
+  String get enableLocationServices => 'Standortdienste aktivieren';
+
+  @override
+  String get enableAppPermissions => 'App-Berechtigungen aktivieren';
+
+  @override
+  String get permissionStatus => 'Berechtigungsstatus';
+
+  @override
+  String get locationServices => 'Standortdienste';
+
+  @override
+  String get backgroundLocation => 'Hintergrundstandort';
+
+  @override
+  String get takePhoto => 'Foto aufnehmen';
+
+  @override
+  String get fromGallery => 'Aus Galerie';
+
+  @override
+  String get detectingLocation => 'Standort wird ermittelt...';
+
+  @override
+  String get locationServicesDisabled => 'Standortdienste deaktiviert';
+
+  @override
+  String get locationPermissionDenied => 'Standortberechtigung verweigert';
+
+  @override
+  String get unableToGetLocation => 'Standort konnte nicht ermittelt werden';
+
+  @override
+  String get locationDetected => 'Standort erkannt';
+
+  @override
+  String get police => 'Polizei';
+
+  @override
+  String get ambulance => 'Krankenwagen';
+
+  @override
+  String get fire => 'Feuerwehr';
+
+  @override
+  String get women => 'Frauen';
+
+  @override
+  String get child => 'Kind';
+
+  @override
+  String get add => 'Hinzufügen';
+
+  @override
+  String get name => 'Name';
+
+  @override
+  String get contactNumber => 'Kontaktnummer';
+
+  @override
+  String get relation => 'Beziehung';
 }

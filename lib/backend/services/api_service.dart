@@ -13,7 +13,7 @@ class ApiService {
   ApiService._internal();
 
   // Configuration - can be updated later
-  static String _baseUrl = ''; // Leave empty for now
+  static String _baseUrl = 'http://4.186.25.99:3000';
   static String _authToken = ''; // Leave empty for now
   static String _touristId = ''; // Leave empty for now
 
@@ -219,6 +219,80 @@ class ApiService {
         'exception': e.toString(),
         'stackTrace': stackTrace.toString()
       };
+    }
+  }
+
+  /// Generic POST request method
+  Future<Map<String, dynamic>> post(String endpoint,
+      {Map<String, dynamic>? body}) async {
+    if (_baseUrl.isEmpty) {
+      return {'error': 'API URL not configured'};
+    }
+
+    try {
+      // Build the URL
+      String url =
+          _baseUrl.endsWith('/') ? _baseUrl + endpoint : '$_baseUrl/$endpoint';
+      Uri uri = Uri.parse(url);
+
+      // Prepare headers
+      final headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      };
+
+      // Add authorization header if token is available
+      if (_authToken.isNotEmpty) {
+        headers['Authorization'] = 'Bearer $_authToken';
+      }
+
+      // Make the POST request
+      final response = await _client
+          .post(
+            uri,
+            headers: headers,
+            body: body != null ? jsonEncode(body) : null,
+          )
+          .timeout(_timeout);
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        try {
+          final jsonResponse = jsonDecode(response.body);
+          return {'success': true, 'data': jsonResponse};
+        } catch (e) {
+          return {'success': true, 'data': response.body};
+        }
+      } else {
+        return {
+          'success': false,
+          'error': 'HTTP ${response.statusCode}',
+          'statusCode': response.statusCode,
+          'message': response.body,
+          'headers': response.headers
+        };
+      }
+    } catch (e, stackTrace) {
+      return {
+        'success': false,
+        'error': 'Exception: $e',
+        'exception': e.toString(),
+        'stackTrace': stackTrace.toString()
+      };
+    }
+  }
+
+  /// Verify user with Firebase token
+  Future<Map<String, dynamic>> verifyUser(String firebaseToken) async {
+    // Temporarily update auth token for this request
+    final previousToken = _authToken;
+    _authToken = firebaseToken;
+
+    try {
+      final result = await post('api/users/verify');
+      return result;
+    } finally {
+      // Restore previous token
+      _authToken = previousToken;
     }
   }
 

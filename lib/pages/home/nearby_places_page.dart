@@ -1042,25 +1042,44 @@ class _NearbyPlacesPageState extends State<NearbyPlacesPage>
   }
 
   Future<void> _openMaps(NearbyPlace place) async {
-    // Use a generic maps URL that works on all platforms
-    // This will open in the default maps app
-    final url = Uri.parse(
-      'https://www.openstreetmap.org/directions'
-      '?engine=fossgis_osrm_car'
-      '&route=${_currentPosition!.latitude},${_currentPosition!.longitude}'
-      ';${place.latitude},${place.longitude}',
+    // Use Google Maps app URL scheme for Android
+    // Format: google.navigation:q=latitude,longitude
+    final Uri googleMapsApp = Uri.parse(
+      'google.navigation:q=${place.latitude},${place.longitude}&mode=d',
     );
 
-    // Try Azure Maps directions first, fall back to OSM
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url, mode: LaunchMode.externalApplication);
-    } else {
-      // Fallback to simple coordinates URL
-      final fallbackUrl = Uri.parse(
-        'geo:${place.latitude},${place.longitude}?q=${place.latitude},${place.longitude}(${Uri.encodeComponent(place.name)})',
+    try {
+      // First try to open Google Maps app directly (Android)
+      bool launched = await launchUrl(
+        googleMapsApp,
+        mode: LaunchMode.externalApplication,
       );
-      if (await canLaunchUrl(fallbackUrl)) {
-        await launchUrl(fallbackUrl, mode: LaunchMode.externalApplication);
+
+      if (!launched) {
+        // Fallback: Use geo: URI which opens default maps app with directions
+        final Uri geoUri = Uri.parse(
+          'geo:0,0?q=${place.latitude},${place.longitude}(${Uri.encodeComponent(place.name)})',
+        );
+        launched = await launchUrl(
+          geoUri,
+          mode: LaunchMode.externalApplication,
+        );
+      }
+
+      if (!launched) {
+        throw 'Could not open maps';
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Could not open maps. Please install Google Maps.',
+              style: GoogleFonts.poppins(),
+            ),
+            backgroundColor: Colors.red,
+          ),
+        );
       }
     }
   }

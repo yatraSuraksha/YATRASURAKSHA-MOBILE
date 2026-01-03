@@ -17,13 +17,15 @@ class CustomAuthProvider extends ChangeNotifier {
   String? get accessToken => _accessToken;
   String? get error => _error;
   Map<String, dynamic>? get userProfile => _userProfile;
-  
+
   // Check if user is fully authenticated with profile data
-  bool get isFullyAuthenticated => _user != null && _accessToken != null && _userProfile != null;
-  
+  bool get isFullyAuthenticated =>
+      _user != null && _accessToken != null && _userProfile != null;
+
   // Check if user is logged in (basic Firebase auth)
-  bool get isLoggedIn => _user != null || FirebaseAuth.instance.currentUser != null;
- 
+  bool get isLoggedIn =>
+      _user != null || FirebaseAuth.instance.currentUser != null;
+
   Future<String?> googleLogin() async {
     _isLoading = true;
     _error = null;
@@ -33,11 +35,14 @@ class CustomAuthProvider extends ChangeNotifier {
     final user = await _authService.googleLogin();
     _isLoading = false;
 
-    if(user["response"] != null && !(user["response"] is String)) {
+    if (user["response"] != null && !(user["response"] is String)) {
       _user = user["response"];
       // Get the access token after successful login
       _accessToken = await _authService.getCurrentAccessToken();
-      
+
+      // Access token stored for future backend integration
+      debugPrint('✅ Auth token available: ${_accessToken != null}');
+
       // Verify user account with backend API
       final verificationResult = await _authService.verifyUserAccount();
       if (verificationResult["success"] == true) {
@@ -46,7 +51,7 @@ class CustomAuthProvider extends ChangeNotifier {
         // Note: We don't treat verification failure as login failure
         // The user is still authenticated with Firebase
       }
-      
+
       notifyListeners();
       return null;
     } else {
@@ -109,10 +114,10 @@ class CustomAuthProvider extends ChangeNotifier {
   void signout() async {
     _isLoading = true;
     notifyListeners();
-    
+
     try {
       await _authService.signout();
-      
+
       // Clear all local state
       _user = null;
       _accessToken = null;
@@ -125,7 +130,7 @@ class CustomAuthProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-  
+
   void loadUser() {
     _user = FirebaseAuth.instance.currentUser;
     notifyListeners();
@@ -231,11 +236,15 @@ class CustomAuthProvider extends ChangeNotifier {
   }
 
   bool get isProfileComplete {
-    return _userProfile?['data']?['user']?['touristProfile']?['profileComplete'] ?? false;
+    return _userProfile?['data']?['user']?['touristProfile']
+            ?['profileComplete'] ??
+        false;
   }
 
   bool get isReadyForTracking {
-    return _userProfile?['data']?['user']?['touristProfile']?['readyForTracking'] ?? false;
+    return _userProfile?['data']?['user']?['touristProfile']
+            ?['readyForTracking'] ??
+        false;
   }
 
   // Re-verify user account (useful for refreshing profile data)
@@ -247,20 +256,23 @@ class CustomAuthProvider extends ChangeNotifier {
     }
     return verificationResult;
   }
-  
+
   // Initialize auth state on app startup
   Future<void> initializeAuthState() async {
     // Don't notify listeners during initialization to prevent build-time errors
     _isLoading = true;
-    
+
     try {
       final currentUser = FirebaseAuth.instance.currentUser;
       if (currentUser != null) {
         _user = currentUser;
-        
+
         // Try to get access token and user profile if available
         _accessToken = await _authService.getCurrentAccessToken();
-        
+
+        // Access token stored for future backend integration
+        debugPrint('✅ Auth token available: ${_accessToken != null}');
+
         if (_accessToken != null) {
           // Try to refresh user profile data
           final verificationResult = await _authService.verifyUserAccount();

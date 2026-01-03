@@ -362,4 +362,85 @@ class AppLocalizationsLus extends AppLocalizations {
 
   @override
   String get threeToFiveMinutes => 'Minute 3-5';
+
+  @override
+  String get logoutDialogTitle => 'Logout';
+
+  @override
+  String get logoutDialogMessage => 'I chhuak duh tak tak em?';
+
+  @override
+  String get signingOut => 'Signing out...';
+
+  @override
+  String get completed => 'Zo tawh';
+
+  @override
+  String get completedTabContent => 'Zo tawh tab content';
+
+  @override
+  String get checkAgain => 'En leh rawh';
+
+  @override
+  String get enableLocationServices => 'Location services tih tur';
+
+  @override
+  String get enableAppPermissions => 'App permissions tih tur';
+
+  @override
+  String get permissionStatus => 'Permission dinhmun';
+
+  @override
+  String get locationServices => 'Location services';
+
+  @override
+  String get backgroundLocation => 'Background location';
+
+  @override
+  String get takePhoto => 'Photo la rawh';
+
+  @override
+  String get fromGallery => 'Gallery atanga';
+
+  @override
+  String get detectingLocation => 'Location hmuh mek...';
+
+  @override
+  String get locationServicesDisabled => 'Location services chu off a ni';
+
+  @override
+  String get locationPermissionDenied => 'Location permission chu paih a ni';
+
+  @override
+  String get unableToGetLocation => 'Location hmuh theih loh';
+
+  @override
+  String get locationDetected => 'Location hmuh tawh';
+
+  @override
+  String get police => 'Police';
+
+  @override
+  String get ambulance => 'Ambulance';
+
+  @override
+  String get fire => 'Fire';
+
+  @override
+  String get women => 'Hmeichhia';
+
+  @override
+  String get child => 'Naupang';
+
+  @override
+  String get add => 'Add rawh';
+
+  @override
+  String get name => 'Hming';
+
+  @override
+  String get contactNumber => 'Contact number';
+
+  @override
+  String get relation => 'Relationship';
 }

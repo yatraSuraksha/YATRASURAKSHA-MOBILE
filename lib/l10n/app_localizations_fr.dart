@@ -367,4 +367,87 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get threeToFiveMinutes => '3-5 minutes';
+
+  @override
+  String get logoutDialogTitle => 'Déconnexion';
+
+  @override
+  String get logoutDialogMessage =>
+      'Êtes-vous sûr de vouloir vous déconnecter?';
+
+  @override
+  String get signingOut => 'Déconnexion en cours...';
+
+  @override
+  String get completed => 'Terminé';
+
+  @override
+  String get completedTabContent => 'Contenu de l\'onglet terminé';
+
+  @override
+  String get checkAgain => 'Vérifier à nouveau';
+
+  @override
+  String get enableLocationServices => 'Activer les services de localisation';
+
+  @override
+  String get enableAppPermissions =>
+      'Activer les autorisations de l\'application';
+
+  @override
+  String get permissionStatus => 'État des autorisations';
+
+  @override
+  String get locationServices => 'Services de localisation';
+
+  @override
+  String get backgroundLocation => 'Localisation en arrière-plan';
+
+  @override
+  String get takePhoto => 'Prendre une photo';
+
+  @override
+  String get fromGallery => 'Depuis la galerie';
+
+  @override
+  String get detectingLocation => 'Détection de l\'emplacement...';
+
+  @override
+  String get locationServicesDisabled => 'Services de localisation désactivés';
+
+  @override
+  String get locationPermissionDenied => 'Autorisation de localisation refusée';
+
+  @override
+  String get unableToGetLocation => 'Impossible d\'obtenir l\'emplacement';
+
+  @override
+  String get locationDetected => 'Emplacement détecté';
+
+  @override
+  String get police => 'Police';
+
+  @override
+  String get ambulance => 'Ambulance';
+
+  @override
+  String get fire => 'Pompiers';
+
+  @override
+  String get women => 'Femmes';
+
+  @override
+  String get child => 'Enfant';
+
+  @override
+  String get add => 'Ajouter';
+
+  @override
+  String get name => 'Nom';
+
+  @override
+  String get contactNumber => 'Numéro de contact';
+
+  @override
+  String get relation => 'Relation';
 }

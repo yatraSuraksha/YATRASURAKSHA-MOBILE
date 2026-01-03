@@ -360,4 +360,85 @@ class AppLocalizationsMni extends AppLocalizations {
 
   @override
   String get threeToFiveMinutes => '৩-৫ মিনিট';
+
+  @override
+  String get logoutDialogTitle => 'ꯂꯣꯒꯥꯎꯠ';
+
+  @override
+  String get logoutDialogMessage => 'ꯅꯪ ꯂꯣꯒꯥꯎꯠ ꯇꯧꯕ ꯄꯥꯝꯂꯥ?';
+
+  @override
+  String get signingOut => 'ꯁꯥꯏꯟ ꯑꯥꯎꯠ ꯇꯧꯔꯤ...';
+
+  @override
+  String get completed => 'ꯂꯣꯏꯔꯦ';
+
+  @override
+  String get completedTabContent => 'ꯂꯣꯏꯔꯕ ꯇꯦꯕ ꯀꯟꯇꯦꯟꯇ';
+
+  @override
+  String get checkAgain => 'ꯑꯃꯨꯛ ꯍꯟꯅ ꯆꯦꯛ ꯇꯧ';
+
+  @override
+  String get enableLocationServices => 'ꯂꯣꯀꯦꯁꯟ ꯁꯔꯕꯤꯁ ꯑꯦꯅꯦꯕꯜ ꯇꯧ';
+
+  @override
+  String get enableAppPermissions => 'ꯑꯦꯞ ꯄꯔꯃꯤꯁꯟ ꯑꯦꯅꯦꯕꯜ ꯇꯧ';
+
+  @override
+  String get permissionStatus => 'ꯄꯔꯃꯤꯁꯟ ꯁ꯭ꯇꯦꯇꯁ';
+
+  @override
+  String get locationServices => 'ꯂꯣꯀꯦꯁꯟ ꯁꯔꯕꯤꯁ';
+
+  @override
+  String get backgroundLocation => 'ꯕꯦꯀꯒ꯭ꯔꯥꯎꯟꯗ ꯂꯣꯀꯦꯁꯟ';
+
+  @override
+  String get takePhoto => 'ꯐꯣꯇꯣ ꯂꯧ';
+
+  @override
+  String get fromGallery => 'ꯒꯦꯂꯥꯔꯤꯗꯒꯤ';
+
+  @override
+  String get detectingLocation => 'ꯂꯣꯀꯦꯁꯟ ꯈꯪꯗꯣꯛꯂꯤ...';
+
+  @override
+  String get locationServicesDisabled => 'ꯂꯣꯀꯦꯁꯟ ꯁꯔꯕꯤꯁ ꯗꯤꯁꯦꯕꯜ ꯇꯧꯔꯦ';
+
+  @override
+  String get locationPermissionDenied => 'ꯂꯣꯀꯦꯁꯟ ꯄꯔꯃꯤꯁꯟ ꯔꯤꯖꯦꯛꯇ ꯇꯧꯔꯦ';
+
+  @override
+  String get unableToGetLocation => 'ꯂꯣꯀꯦꯁꯟ ꯐꯪꯗꯕ ꯉꯃꯗꯦ';
+
+  @override
+  String get locationDetected => 'ꯂꯣꯀꯦꯁꯟ ꯈꯪꯂꯦ';
+
+  @override
+  String get police => 'ꯄꯣꯂꯤꯁ';
+
+  @override
+  String get ambulance => 'ꯑꯦꯝꯕꯨꯂꯦꯟꯁ';
+
+  @override
+  String get fire => 'ꯐꯥꯏꯌꯔ';
+
+  @override
+  String get women => 'ꯅꯨꯄꯤ';
+
+  @override
+  String get child => 'ꯑꯉꯥꯡ';
+
+  @override
+  String get add => 'ꯍꯥꯄꯆꯤꯜꯂꯨ';
+
+  @override
+  String get name => 'ꯃꯤꯡ';
+
+  @override
+  String get contactNumber => 'ꯀꯟꯇꯦꯛꯇ ꯅꯝꯕꯔ';
+
+  @override
+  String get relation => 'ꯃꯔꯤ';
 }

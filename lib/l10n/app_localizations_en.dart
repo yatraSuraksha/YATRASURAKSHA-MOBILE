@@ -361,4 +361,85 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get threeToFiveMinutes => '3-5 minutes';
+
+  @override
+  String get logoutDialogTitle => 'Logout';
+
+  @override
+  String get logoutDialogMessage => 'Are you sure you want to logout?';
+
+  @override
+  String get signingOut => 'Signing out...';
+
+  @override
+  String get completed => 'Completed';
+
+  @override
+  String get completedTabContent => 'Completed Tab Content';
+
+  @override
+  String get checkAgain => 'Check Again';
+
+  @override
+  String get enableLocationServices => 'Enable Location Services';
+
+  @override
+  String get enableAppPermissions => 'Enable App Permissions';
+
+  @override
+  String get permissionStatus => 'Permission Status';
+
+  @override
+  String get locationServices => 'Location Services';
+
+  @override
+  String get backgroundLocation => 'Background Location';
+
+  @override
+  String get takePhoto => 'Take Photo';
+
+  @override
+  String get fromGallery => 'From Gallery';
+
+  @override
+  String get detectingLocation => 'Detecting location...';
+
+  @override
+  String get locationServicesDisabled => 'Location services disabled';
+
+  @override
+  String get locationPermissionDenied => 'Location permission denied';
+
+  @override
+  String get unableToGetLocation => 'Unable to get location';
+
+  @override
+  String get locationDetected => 'Location detected';
+
+  @override
+  String get police => 'Police';
+
+  @override
+  String get ambulance => 'Ambulance';
+
+  @override
+  String get fire => 'Fire';
+
+  @override
+  String get women => 'Women';
+
+  @override
+  String get child => 'Child';
+
+  @override
+  String get add => 'Add';
+
+  @override
+  String get name => 'Name';
+
+  @override
+  String get contactNumber => 'Contact Number';
+
+  @override
+  String get relation => 'Relation';
 }

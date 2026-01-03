@@ -364,4 +364,86 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get threeToFiveMinutes => '3-5 минут';
+
+  @override
+  String get logoutDialogTitle => 'Выход';
+
+  @override
+  String get logoutDialogMessage => 'Вы уверены, что хотите выйти?';
+
+  @override
+  String get signingOut => 'Выход из системы...';
+
+  @override
+  String get completed => 'Завершено';
+
+  @override
+  String get completedTabContent => 'Содержимое завершенной вкладки';
+
+  @override
+  String get checkAgain => 'Проверить снова';
+
+  @override
+  String get enableLocationServices => 'Включить службы геолокации';
+
+  @override
+  String get enableAppPermissions => 'Включить разрешения приложения';
+
+  @override
+  String get permissionStatus => 'Статус разрешений';
+
+  @override
+  String get locationServices => 'Службы геолокации';
+
+  @override
+  String get backgroundLocation => 'Фоновое местоположение';
+
+  @override
+  String get takePhoto => 'Сделать фото';
+
+  @override
+  String get fromGallery => 'Из галереи';
+
+  @override
+  String get detectingLocation => 'Определение местоположения...';
+
+  @override
+  String get locationServicesDisabled => 'Службы геолокации отключены';
+
+  @override
+  String get locationPermissionDenied =>
+      'Разрешение на местоположение отклонено';
+
+  @override
+  String get unableToGetLocation => 'Не удалось получить местоположение';
+
+  @override
+  String get locationDetected => 'Местоположение определено';
+
+  @override
+  String get police => 'Полиция';
+
+  @override
+  String get ambulance => 'Скорая помощь';
+
+  @override
+  String get fire => 'Пожарная служба';
+
+  @override
+  String get women => 'Женщины';
+
+  @override
+  String get child => 'Ребенок';
+
+  @override
+  String get add => 'Добавить';
+
+  @override
+  String get name => 'Имя';
+
+  @override
+  String get contactNumber => 'Контактный номер';
+
+  @override
+  String get relation => 'Отношение';
 }

@@ -56,6 +56,19 @@
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>This tourist safety app needs background location access to continuously monitor your safety and provide emergency assistance during your travels.</string>
 	
+	<!-- Camera and Microphone usage descriptions for SOS Video Recording -->
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs camera access to record emergency SOS videos for your safety and to provide evidence in case of emergencies.</string>
+	
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app needs microphone access to record audio with emergency SOS videos for complete documentation during emergencies.</string>
+	
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to save emergency SOS video recordings for your safety records.</string>
+	
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This app needs permission to save emergency SOS videos to your photo library for your safety records and evidence documentation.</string>
+	
 	<!-- Background modes capability -->
 	<key>UIBackgroundModes</key>
 	<array>

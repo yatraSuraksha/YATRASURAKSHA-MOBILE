@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart' as ph;
 import 'package:yatra_suraksha_app/pages/home/homepage.dart';
+import 'package:yatra_suraksha_app/l10n/app_localizations.dart';
 import '../../const/app_colors.dart';
 import '../../backend/services/location_service.dart';
 
@@ -16,7 +17,8 @@ class PermissionGate extends StatefulWidget {
   State<PermissionGate> createState() => _PermissionGateState();
 }
 
-class _PermissionGateState extends State<PermissionGate> with WidgetsBindingObserver {
+class _PermissionGateState extends State<PermissionGate>
+    with WidgetsBindingObserver {
   bool _isLocationServiceEnabled = false;
   bool _hasAlwaysPermission = false;
   bool _isLoading = true;
@@ -40,7 +42,7 @@ class _PermissionGateState extends State<PermissionGate> with WidgetsBindingObse
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    
+
     // When the app is resumed (user returns to the app), re-check permissions
     if (state == AppLifecycleState.resumed) {
       _checkPermissionsAndServices();
@@ -56,7 +58,7 @@ class _PermissionGateState extends State<PermissionGate> with WidgetsBindingObse
     try {
       // Check if location services are enabled
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      
+
       // Check if always permission is granted
       bool alwaysPermission = await ph.Permission.locationAlways.isGranted;
 
@@ -97,8 +99,8 @@ class _PermissionGateState extends State<PermissionGate> with WidgetsBindingObse
               Text(
                 'Checking permissions...',
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: AppColors.primaryText,
-                ),
+                      color: AppColors.primaryText,
+                    ),
               ),
             ],
           ),
@@ -156,51 +158,53 @@ class EnableLocationScreen extends StatelessWidget {
                 size: 120,
                 color: AppColors.primary,
               ),
-              
+
               const SizedBox(height: 32),
-              
+
               // Title
               Text(
                 'Location Access Required',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primaryText,
-                ),
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primaryText,
+                    ),
                 textAlign: TextAlign.center,
               ),
-              
+
               const SizedBox(height: 16),
-              
+
               // Description
               Text(
                 'Yatra Suraksha needs location access to keep you safe during your travels. We require continuous location tracking to provide emergency assistance.',
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: AppColors.secondaryText,
-                ),
+                      color: AppColors.secondaryText,
+                    ),
                 textAlign: TextAlign.center,
               ),
-              
+
               const SizedBox(height: 32),
-              
+
               // Permission Status
               _buildPermissionStatus(context),
-              
+
               const SizedBox(height: 32),
-              
+
               // Action Buttons
               _buildActionButtons(context),
-              
+
               const SizedBox(height: 24),
-              
+
               // Refresh Button
               OutlinedButton.icon(
                 onPressed: onPermissionsChanged,
                 icon: const Icon(Icons.refresh),
-                label: const Text('Check Again'),
+                label: Text(
+                    AppLocalizations.of(context)?.checkAgain ?? 'Check Again'),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: AppColors.primary,
                   side: BorderSide(color: AppColors.primary),
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 ),
               ),
             ],
@@ -211,6 +215,8 @@ class EnableLocationScreen extends StatelessWidget {
   }
 
   Widget _buildPermissionStatus(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -221,29 +227,29 @@ class EnableLocationScreen extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            'Permission Status',
+            l10n?.permissionStatus ?? 'Permission Status',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: AppColors.primaryText,
-            ),
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.primaryText,
+                ),
           ),
           const SizedBox(height: 12),
-          
+
           // Location Service Status
           _buildStatusRow(
             context,
             icon: Icons.location_searching,
-            title: 'Location Services',
+            title: l10n?.locationServices ?? 'Location Services',
             isEnabled: isLocationServiceEnabled,
           ),
-          
+
           const SizedBox(height: 8),
-          
+
           // Always Permission Status
           _buildStatusRow(
             context,
             icon: Icons.security,
-            title: 'Background Location',
+            title: l10n?.backgroundLocation ?? 'Background Location',
             isEnabled: hasLocationAlwaysPermission,
           ),
         ],
@@ -251,7 +257,8 @@ class EnableLocationScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatusRow(BuildContext context, {
+  Widget _buildStatusRow(
+    BuildContext context, {
     required IconData icon,
     required String title,
     required bool isEnabled,
@@ -268,8 +275,8 @@ class EnableLocationScreen extends StatelessWidget {
           child: Text(
             title,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColors.primaryText,
-            ),
+                  color: AppColors.primaryText,
+                ),
           ),
         ),
         Icon(
@@ -290,7 +297,8 @@ class EnableLocationScreen extends StatelessWidget {
           ElevatedButton.icon(
             onPressed: () => _openLocationSettings(context),
             icon: const Icon(Icons.settings_outlined),
-            label: const Text('Enable Location Services'),
+            label: Text(AppLocalizations.of(context)?.enableLocationServices ??
+                'Enable Location Services'),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
               foregroundColor: Colors.white,
@@ -302,13 +310,14 @@ class EnableLocationScreen extends StatelessWidget {
           ),
           const SizedBox(height: 12),
         ],
-        
+
         // App Permissions Button
         if (!hasLocationAlwaysPermission) ...[
           ElevatedButton.icon(
             onPressed: () => _openAppSettings(context),
             icon: const Icon(Icons.app_settings_alt_outlined),
-            label: const Text('Enable App Permissions'),
+            label: Text(AppLocalizations.of(context)?.enableAppPermissions ??
+                'Enable App Permissions'),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.warning,
               foregroundColor: Colors.white,
@@ -327,14 +336,14 @@ class EnableLocationScreen extends StatelessWidget {
   Future<void> _openLocationSettings(BuildContext context) async {
     try {
       bool opened = await Geolocator.openLocationSettings();
-      
+
       if (!opened && context.mounted) {
         _showErrorSnackBar(
           context,
           'Unable to open location settings. Please enable location services manually in your device settings.',
         );
       }
-      
+
       // Wait a bit before rechecking permissions
       Future.delayed(const Duration(milliseconds: 500), () {
         onPermissionsChanged();
@@ -353,14 +362,14 @@ class EnableLocationScreen extends StatelessWidget {
   Future<void> _openAppSettings(BuildContext context) async {
     try {
       bool opened = await ph.openAppSettings();
-      
+
       if (!opened && context.mounted) {
         _showErrorSnackBar(
           context,
           'Unable to open app settings. Please enable location permissions manually in your device settings.',
         );
       }
-      
+
       // Wait a bit before rechecking permissions
       Future.delayed(const Duration(milliseconds: 500), () {
         onPermissionsChanged();

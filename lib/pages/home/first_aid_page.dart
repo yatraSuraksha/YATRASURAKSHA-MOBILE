@@ -16,7 +16,6 @@ class FirstAidPage extends StatefulWidget {
 class _FirstAidPageState extends State<FirstAidPage> {
   final TextEditingController _injuryController = TextEditingController();
   final FirstAidAIService _aiService = FirstAidAIService();
-  final _formKey = GlobalKey<FormState>();
 
   bool _isEmergency = false;
   bool _isLoading = false;

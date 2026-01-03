@@ -3,8 +3,30 @@ import '../services/location_service.dart';
 
 /// Configuration helper for API settings
 class ApiConfig {
+  // Backend API Configuration
+  static String baseUrl = 'https://your-backend-api.com';
+
+  // SOS Video API Configuration
+  // TODO: Replace with your actual backend URL
+  static String sosVideoBaseUrl = 'https://your-backend-api.com';
+  static String get sosVideoUploadEndpoint =>
+      '$sosVideoBaseUrl/api/emergency/sos-video';
+
+  // Timeout configurations for video uploads
+  static const Duration connectionTimeout = Duration(seconds: 30);
+  static const Duration videoUploadTimeout = Duration(minutes: 5);
+  static const Duration receiveTimeout = Duration(seconds: 30);
+
+  /// Configure SOS video upload endpoint
+  static void configureSosVideoApi({required String baseUrl}) {
+    sosVideoBaseUrl = baseUrl;
+    if (kDebugMode) {
+      print('🎥 SOS Video API configured: $sosVideoUploadEndpoint');
+    }
+  }
+
   /// Configure the location API settings
-  /// 
+  ///
   /// Example usage:
   /// ```dart
   /// ApiConfig.setup(
@@ -24,13 +46,14 @@ class ApiConfig {
       authToken: authToken,
       touristId: touristId,
     );
-    
+
     if (kDebugMode) {
       print('🔧 ═══════════════════════════════════════════════════════════');
       print('🔧 API CONFIGURATION APPLIED');
       print('🔧 ═══════════════════════════════════════════════════════════');
       print('📡 Base URL: $baseUrl');
-      print('🔑 Auth Token: ${authToken != null ? '[Configured]' : '[Not Set]'}');
+      print(
+          '🔑 Auth Token: ${authToken != null ? '[Configured]' : '[Not Set]'}');
       print('👤 Tourist ID: ${touristId ?? '[Not Set]'}');
       print('🔧 ═══════════════════════════════════════════════════════════');
     }
@@ -40,7 +63,7 @@ class ApiConfig {
   static void updateAuthToken(String authToken) {
     final locationService = LocationService();
     locationService.configureApi(authToken: authToken);
-    
+
     if (kDebugMode) {
       print('🔑 Auth token updated successfully');
     }
@@ -50,7 +73,7 @@ class ApiConfig {
   static void updateTouristId(String touristId) {
     final locationService = LocationService();
     locationService.configureApi(touristId: touristId);
-    
+
     if (kDebugMode) {
       print('👤 Tourist ID updated successfully');
     }
@@ -75,7 +98,7 @@ class ApiConfig {
       print('💡 Remember to update with actual values later using:');
       print('   ApiConfig.setup(baseUrl: "your-url", authToken: "your-token")');
     }
-    
+
     setup(
       baseUrl: '', // Will be updated later
       authToken: '', // Will be updated later

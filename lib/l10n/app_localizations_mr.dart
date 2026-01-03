@@ -357,4 +357,85 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get threeToFiveMinutes => '३-५ मिनिटे';
+
+  @override
+  String get logoutDialogTitle => 'लॉगआउट';
+
+  @override
+  String get logoutDialogMessage => 'तुम्हाला लॉगआउट करायचे आहे का?';
+
+  @override
+  String get signingOut => 'साइन आउट होत आहे...';
+
+  @override
+  String get completed => 'पूर्ण';
+
+  @override
+  String get completedTabContent => 'पूर्ण टॅब सामग्री';
+
+  @override
+  String get checkAgain => 'पुन्हा तपासा';
+
+  @override
+  String get enableLocationServices => 'स्थान सेवा सक्षम करा';
+
+  @override
+  String get enableAppPermissions => 'अॅप परवानग्या सक्षम करा';
+
+  @override
+  String get permissionStatus => 'परवानगी स्थिती';
+
+  @override
+  String get locationServices => 'स्थान सेवा';
+
+  @override
+  String get backgroundLocation => 'पार्श्वभूमी स्थान';
+
+  @override
+  String get takePhoto => 'फोटो घ्या';
+
+  @override
+  String get fromGallery => 'गॅलरीमधून';
+
+  @override
+  String get detectingLocation => 'स्थान शोधत आहे...';
+
+  @override
+  String get locationServicesDisabled => 'स्थान सेवा अक्षम केल्या आहेत';
+
+  @override
+  String get locationPermissionDenied => 'स्थान परवानगी नाकारली';
+
+  @override
+  String get unableToGetLocation => 'स्थान मिळवू शकलो नाही';
+
+  @override
+  String get locationDetected => 'स्थान शोधले';
+
+  @override
+  String get police => 'पोलीस';
+
+  @override
+  String get ambulance => 'रुग्णवाहिका';
+
+  @override
+  String get fire => 'अग्निशमन';
+
+  @override
+  String get women => 'महिला';
+
+  @override
+  String get child => 'मूल';
+
+  @override
+  String get add => 'जोडा';
+
+  @override
+  String get name => 'नाव';
+
+  @override
+  String get contactNumber => 'संपर्क क्रमांक';
+
+  @override
+  String get relation => 'नाते';
 }

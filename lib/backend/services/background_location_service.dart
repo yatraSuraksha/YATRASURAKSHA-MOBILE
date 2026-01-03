@@ -1,5 +1,4 @@
 import 'package:flutter/services.dart';
-import 'package:flutter/foundation.dart';
 
 class BackgroundLocationService {
   static const _channel = MethodChannel('background_location_service');

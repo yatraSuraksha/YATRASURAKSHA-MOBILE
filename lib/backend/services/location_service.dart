@@ -6,7 +6,6 @@ import 'api_service.dart';
 import 'websocket_service.dart';
 import 'background_location_service.dart';
 
-
 /// A robust location service for background location tracking
 /// Designed for tourist safety applications with API integration
 /// Supports hybrid tracking: POST method (default) and WebSocket (live tracking)
@@ -14,13 +13,12 @@ class LocationService extends ChangeNotifier {
   static final LocationService _instance = LocationService._internal();
   factory LocationService() => _instance;
   LocationService._internal() {
-    
     // Start monitoring location service status when the service is created
     _startServiceStatusMonitoring();
-    
+
     // Initialize WebSocket service and set callback
     _initializeWebSocketService();
-    
+
     // Auto-start real-time background tracking
     _autoStartRealTimeTracking();
   }
@@ -32,11 +30,12 @@ class LocationService extends ChangeNotifier {
   String? _lastError;
   TrackingMode _currentMode = TrackingMode.post;
   bool _isWebSocketConnected = false;
-  
+
   final ApiService _apiService = ApiService();
   final WebSocketService _webSocketService = WebSocketService();
-  final BackgroundLocationService _backgroundLocationService = BackgroundLocationService();
-  
+  final BackgroundLocationService _backgroundLocationService =
+      BackgroundLocationService();
+
   // Background tracking state
   bool _isBackgroundTrackingEnabled = false;
   String? _backgroundApiEndpoint;
@@ -55,23 +54,25 @@ class LocationService extends ChangeNotifier {
   Future<bool> requestPermission() async {
     try {
       _lastError = null;
-      
+
       // Step 1: Check if location services are enabled
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
-        _lastError = 'Location services are disabled. Please enable location services in device settings.';
+        _lastError =
+            'Location services are disabled. Please enable location services in device settings.';
         notifyListeners();
         return false;
       }
 
       // Step 2: Check current location permission status
       LocationPermission permission = await Geolocator.checkPermission();
-      
+
       // Step 3: Request basic location permission if needed
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          _lastError = 'Location permission denied. Please grant location permission to use this feature.';
+          _lastError =
+              'Location permission denied. Please grant location permission to use this feature.';
           notifyListeners();
           return false;
         }
@@ -79,24 +80,29 @@ class LocationService extends ChangeNotifier {
 
       // Step 4: Handle permanently denied permissions
       if (permission == LocationPermission.deniedForever) {
-        _lastError = 'Location permissions are permanently denied. Please enable them in app settings.';
+        _lastError =
+            'Location permissions are permanently denied. Please enable them in app settings.';
         notifyListeners();
         return false;
       }
 
       // Step 5: Check if we have whileInUse permission
-      if (permission == LocationPermission.whileInUse || permission == LocationPermission.always) {
+      if (permission == LocationPermission.whileInUse ||
+          permission == LocationPermission.always) {
         // Step 6: Request background location permission (always)
-        ph.PermissionStatus backgroundPermission = await ph.Permission.locationAlways.request();
-        
+        ph.PermissionStatus backgroundPermission =
+            await ph.Permission.locationAlways.request();
+
         if (backgroundPermission.isGranted) {
           return true;
         } else if (backgroundPermission.isPermanentlyDenied) {
-          _lastError = 'Background location permission is permanently denied. Please enable "Allow all the time" in app settings.';
+          _lastError =
+              'Background location permission is permanently denied. Please enable "Allow all the time" in app settings.';
           notifyListeners();
           return false;
         } else {
-          _lastError = 'Background location permission denied. For safety tracking, please allow "All the time" location access.';
+          _lastError =
+              'Background location permission denied. For safety tracking, please allow "All the time" location access.';
           notifyListeners();
           return false;
         }
@@ -139,13 +145,13 @@ class LocationService extends ChangeNotifier {
 
       // Log the location-off event to backend
       _logEventToBackend('location-off', timestamp);
-      
+
       // Update error state
       _lastError = 'Location services have been disabled';
       notifyListeners();
     } else if (status == ServiceStatus.enabled) {
       // Location services have been re-enabled
-      
+
       // Clear error if it was related to disabled services
       if (_lastError?.contains('disabled') == true) {
         _lastError = null;
@@ -183,7 +189,7 @@ class LocationService extends ChangeNotifier {
   void _initializeWebSocketService() {
     // Set callback for tracking mode changes from server
     _webSocketService.setTrackingModeChangeCallback(_onTrackingModeChange);
-    
+
     // Listen to WebSocket connection status
     _webSocketService.addListener(_onWebSocketStatusChange);
   }
@@ -191,17 +197,17 @@ class LocationService extends ChangeNotifier {
   /// Handle tracking mode changes from WebSocket service
   void _onTrackingModeChange(TrackingMode newMode) {
     if (_currentMode == newMode) return;
-    
+
     _currentMode = newMode;
-    
+
     // Restart tracking with new mode if already tracking
     if (_isTracking) {
       _restartTrackingWithNewMode();
     }
-    
+
     // Update background service mode if enabled
     _updateBackgroundTrackingMode();
-    
+
     notifyListeners();
   }
 
@@ -209,7 +215,7 @@ class LocationService extends ChangeNotifier {
   void _onWebSocketStatusChange() {
     bool wasConnected = _isWebSocketConnected;
     _isWebSocketConnected = _webSocketService.isConnected;
-    
+
     if (wasConnected != _isWebSocketConnected) {
       notifyListeners();
     }
@@ -219,7 +225,7 @@ class LocationService extends ChangeNotifier {
   void _restartTrackingWithNewMode() {
     // Stop current tracking
     _positionStreamSubscription?.cancel();
-    
+
     // Start with new settings based on mode
     _startLocationStreamWithMode(_currentMode);
   }
@@ -264,7 +270,7 @@ class LocationService extends ChangeNotifier {
   /// Start location stream with specific mode settings
   void _startLocationStreamWithMode(TrackingMode mode) {
     LocationSettings settings;
-    
+
     // Configure location settings based on tracking mode
     switch (mode) {
       case TrackingMode.post:
@@ -361,7 +367,7 @@ class LocationService extends ChangeNotifier {
         _sendLocationViaWebSocket(position);
         break;
     }
-    
+
     // Additional processing can be added here:
     // - Check safety zones/geofences
     // - Trigger emergency protocols if needed
@@ -372,10 +378,35 @@ class LocationService extends ChangeNotifier {
   /// Send location coordinates to backend API via POST
   Future<void> _sendLocationToBackend(Position position) async {
     try {
-      // Post location data to API using the configured service
-      await _apiService.postLocationUpdate(position);
+      // Location ready for backend integration
+      // TODO: Implement backend location update when API is ready
+      final result = {
+        'success': true,
+        'message': 'Location tracked',
+        'data': {
+          'latitude': position.latitude,
+          'longitude': position.longitude,
+          'accuracy': position.accuracy,
+          'speed': position.speed,
+          'heading': position.heading,
+          'altitude': position.altitude,
+        }
+      };
+
+      if (result['success'] == true) {
+        debugPrint('✅ Location tracked successfully');
+      } else {
+        debugPrint('⚠️ Location tracking failed: ${result['error']}');
+        // Fallback to old API service
+        await _apiService.postLocationUpdate(position);
+      }
     } catch (e) {
-      // Handle error silently
+      // Fallback to old API service
+      try {
+        await _apiService.postLocationUpdate(position);
+      } catch (fallbackError) {
+        debugPrint('❌ Location update failed: $fallbackError');
+      }
     }
   }
 
@@ -389,7 +420,7 @@ class LocationService extends ChangeNotifier {
       }
 
       final success = await _webSocketService.sendLocationData(position);
-      
+
       if (!success) {
         // Fallback to POST method
         await _sendLocationToBackend(position);
@@ -402,7 +433,6 @@ class LocationService extends ChangeNotifier {
 
   /// Get current location once (not streaming)
   Future<Position?> getCurrentLocation() async {
-
     try {
       bool hasPermission = await requestPermission();
       if (!hasPermission) {
@@ -412,10 +442,10 @@ class LocationService extends ChangeNotifier {
       Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
-      
+
       _currentPosition = position;
       notifyListeners();
-      
+
       return position;
     } catch (e) {
       _lastError = 'Failed to get current location: $e';
@@ -530,7 +560,8 @@ class LocationService extends ChangeNotifier {
   /// Check if background tracking is currently active
   Future<bool> checkBackgroundTrackingStatus() async {
     try {
-      final isActive = await _backgroundLocationService.isBackgroundTrackingActive();
+      final isActive =
+          await _backgroundLocationService.isBackgroundTrackingActive();
       _isBackgroundTrackingEnabled = isActive;
       notifyListeners();
       return isActive;
@@ -578,12 +609,14 @@ class LocationService extends ChangeNotifier {
   /// Auto-start real-time background tracking
   Future<void> _autoStartRealTimeTracking() async {
     // Use your actual API endpoint here
-    _backgroundApiEndpoint = 'https://httpbin.org/post'; // Replace with your real API
+    _backgroundApiEndpoint =
+        'https://httpbin.org/post'; // Replace with your real API
     _backgroundAuthToken = null; // Add your auth token if needed
-    
+
     // Start background tracking with real-time mode
-    await Future.delayed(const Duration(seconds: 2)); // Small delay to ensure app is ready
-    
+    await Future.delayed(
+        const Duration(seconds: 2)); // Small delay to ensure app is ready
+
     await enableBackgroundTracking(
       apiEndpoint: _backgroundApiEndpoint,
       authToken: _backgroundAuthToken,

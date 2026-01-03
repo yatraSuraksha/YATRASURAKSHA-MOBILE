@@ -25,9 +25,9 @@ class AuthService {
         return {"response": "Google Sign-in cancelled"};
       }
 
-
       // Obtain authentication details
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
       // Access token and ID token
       final accessToken = googleAuth.accessToken;
@@ -55,8 +55,52 @@ class AuthService {
         return {"response": "Sign-in failed"};
       }
 
-      // Optionally, you can send the accessToken to another API here
-      // Example: await sendAccessTokenToBackend(accessToken);
+      // Get Firebase ID token and verify with backend
+      final user = userCredential.user;
+      if (user != null) {
+        try {
+          final idTokenResult = await user.getIdTokenResult();
+          final firebaseToken = idTokenResult.token;
+
+          if (firebaseToken != null) {
+            // Call the verify endpoint using ApiService
+            final apiService = ApiService();
+            final verifyResult = await apiService.verifyUser(firebaseToken);
+
+            if (verifyResult['success'] == true &&
+                verifyResult['data'] != null) {
+              final data = verifyResult['data'];
+
+              // Extract tourist ID and configure API service
+              if (data['success'] == true && data['data'] != null) {
+                final userData = data['data']['user'];
+                final touristProfile = userData?['touristProfile'];
+
+                if (touristProfile != null && touristProfile['id'] != null) {
+                  final touristId = touristProfile['id'];
+
+                  // Configure API service with the tourist ID
+                  final locationBaseUrl =
+                      dotenv.env['API_BASE_URL'] ?? 'http://4.186.25.99:3000';
+                  final locationEndpoint =
+                      dotenv.env['API_LOCATION_UPDATE_ENDPOINT'] ??
+                          '/api/tracking/location/update/me';
+                  final fullLocationUrl = '$locationBaseUrl$locationEndpoint';
+
+                  ApiService.updateConfig(
+                    baseUrl: fullLocationUrl,
+                    touristId: touristId,
+                    authToken: firebaseToken,
+                  );
+                }
+              }
+            }
+          }
+        } catch (verifyError) {
+          // Continue with login even if verification fails
+          // print("Verification error: $verifyError");
+        }
+      }
 
       return {"response": userCredential.user};
     } catch (e) {
@@ -102,16 +146,15 @@ class AuthService {
   // Verify user account with backend API
   Future<Map<String, dynamic>> verifyUserAccount() async {
     try {
-      
       final token = await getCurrentAccessToken();
       if (token == null) {
         return {"success": false, "error": "No access token available"};
       }
-      
-      final baseUrl =  'http://74.225.144.0:3000';
-      final endpoint =  '/api/users/verify';
+
+      final baseUrl = 'http://74.225.144.0:3000';
+      final endpoint = '/api/users/verify';
       final url = '$baseUrl$endpoint';
-      
+
       final headers = {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
@@ -123,26 +166,28 @@ class AuthService {
       );
 
       if (response.statusCode == 200) {
-        
         try {
           final data = jsonDecode(response.body);
           // Pretty print the response JSON
           const encoder = JsonEncoder.withIndent('  ');
           final prettyJson = encoder.convert(data);
-          
+
           // Extract tourist ID and configure API service
           if (data['success'] == true && data['data'] != null) {
             final userData = data['data']['user'];
             final touristProfile = userData?['touristProfile'];
-            
+
             if (touristProfile != null && touristProfile['id'] != null) {
               final touristId = touristProfile['id'];
-              
+
               // Configure API service with the tourist ID and base URL from environment
-              final locationBaseUrl = dotenv.env['API_BASE_URL'] ?? 'http://74.225.144.0:3000';
-              final locationEndpoint = dotenv.env['API_LOCATION_UPDATE_ENDPOINT'] ?? '/api/tracking/location/update/me';
+              final locationBaseUrl =
+                  dotenv.env['API_BASE_URL'] ?? 'http://74.225.144.0:3000';
+              final locationEndpoint =
+                  dotenv.env['API_LOCATION_UPDATE_ENDPOINT'] ??
+                      '/api/tracking/location/update/me';
               final fullLocationUrl = '$locationBaseUrl$locationEndpoint';
-              
+
               ApiService.updateConfig(
                 baseUrl: fullLocationUrl,
                 touristId: touristId,
@@ -157,17 +202,16 @@ class AuthService {
             // print("   Success flag: ${data['success']}");
             // print("   Data exists: ${data['data'] != null}");
           }
-          
+
           // print("🔍 ═══════════════════════════════════════════════════════════");
           return {"success": true, "data": data};
-          
         } catch (jsonError) {
           // print("❌ JSON parsing failed: $jsonError");
           // print("📄 Raw response body:");
           // print(response.body);
           // print("🔍 ═══════════════════════════════════════════════════════════");
           return {
-            "success": false, 
+            "success": false,
             "error": "JSON parsing failed: $jsonError",
             "rawResponse": response.body
           };
@@ -181,9 +225,9 @@ class AuthService {
           // print("   $key: $value");
         });
         // print("🔍 ═══════════════════════════════════════════════════════════");
-        
+
         return {
-          "success": false, 
+          "success": false,
           "error": "Verification failed with status: ${response.statusCode}",
           "statusCode": response.statusCode,
           "message": response.body,
@@ -195,8 +239,12 @@ class AuthService {
       // print("📚 Stack trace:");
       // print(stackTrace);
       // print("🔍 ═══════════════════════════════════════════════════════════");
-      
-      return {"success": false, "error": "Exception: $e", "stackTrace": stackTrace.toString()};
+
+      return {
+        "success": false,
+        "error": "Exception: $e",
+        "stackTrace": stackTrace.toString()
+      };
     }
   }
 }

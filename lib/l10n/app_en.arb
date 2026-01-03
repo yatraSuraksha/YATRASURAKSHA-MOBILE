@@ -469,5 +469,113 @@
   "threeToFiveMinutes": "3-5 minutes",
   "@threeToFiveMinutes": {
     "description": "Estimated time"
+  },
+  "logoutDialogTitle": "Logout",
+  "@logoutDialogTitle": {
+    "description": "Logout confirmation dialog title"
+  },
+  "logoutDialogMessage": "Are you sure you want to logout?",
+  "@logoutDialogMessage": {
+    "description": "Logout confirmation dialog message"
+  },
+  "signingOut": "Signing out...",
+  "@signingOut": {
+    "description": "Signing out loading message"
+  },
+  "completed": "Completed",
+  "@completed": {
+    "description": "Completed tab title"
+  },
+  "completedTabContent": "Completed Tab Content",
+  "@completedTabContent": {
+    "description": "Completed tab placeholder content"
+  },
+  "checkAgain": "Check Again",
+  "@checkAgain": {
+    "description": "Button to check permissions again"
+  },
+  "enableLocationServices": "Enable Location Services",
+  "@enableLocationServices": {
+    "description": "Button to enable location services"
+  },
+  "enableAppPermissions": "Enable App Permissions",
+  "@enableAppPermissions": {
+    "description": "Button to enable app permissions"
+  },
+  "permissionStatus": "Permission Status",
+  "@permissionStatus": {
+    "description": "Permission status section title"
+  },
+  "locationServices": "Location Services",
+  "@locationServices": {
+    "description": "Location services label"
+  },
+  "backgroundLocation": "Background Location",
+  "@backgroundLocation": {
+    "description": "Background location permission label"
+  },
+  "takePhoto": "Take Photo",
+  "@takePhoto": {
+    "description": "Take photo button"
+  },
+  "fromGallery": "From Gallery",
+  "@fromGallery": {
+    "description": "Select from gallery button"
+  },
+  "detectingLocation": "Detecting location...",
+  "@detectingLocation": {
+    "description": "Loading message while detecting location"
+  },
+  "locationServicesDisabled": "Location services disabled",
+  "@locationServicesDisabled": {
+    "description": "Error message when location services are disabled"
+  },
+  "locationPermissionDenied": "Location permission denied",
+  "@locationPermissionDenied": {
+    "description": "Error message when location permission is denied"
+  },
+  "unableToGetLocation": "Unable to get location",
+  "@unableToGetLocation": {
+    "description": "Error message when unable to get location"
+  },
+  "locationDetected": "Location detected",
+  "@locationDetected": {
+    "description": "Success message when location is detected"
+  },
+  "police": "Police",
+  "@police": {
+    "description": "Police emergency contact"
+  },
+  "ambulance": "Ambulance",
+  "@ambulance": {
+    "description": "Ambulance emergency contact"
+  },
+  "fire": "Fire",
+  "@fire": {
+    "description": "Fire emergency contact"
+  },
+  "women": "Women",
+  "@women": {
+    "description": "Women helpline contact"
+  },
+  "child": "Child",
+  "@child": {
+    "description": "Child helpline contact"
+  },
+  "add": "Add",
+  "@add": {
+    "description": "Add button"
+  },
+  "name": "Name",
+  "@name": {
+    "description": "Name field label"
+  },
+  "contactNumber": "Contact Number",
+  "@contactNumber": {
+    "description": "Contact number field label"
+  },
+  "relation": "Relation",
+  "@relation": {
+    "description": "Relation field label"
   }
 }

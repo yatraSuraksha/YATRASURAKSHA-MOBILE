@@ -414,18 +414,21 @@ class ProfileTab extends StatelessWidget {
 
   void _showLogoutDialog(
       BuildContext context, CustomAuthProvider authProvider) {
+    final l10n = AppLocalizations.of(context);
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Logout'),
-          content: const Text('Are you sure you want to logout?'),
+          title: Text(l10n?.logoutDialogTitle ?? 'Logout'),
+          content: Text(
+              l10n?.logoutDialogMessage ?? 'Are you sure you want to logout?'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Close dialog
               },
-              child: const Text('Cancel'),
+              child: Text(l10n?.cancel ?? 'Cancel'),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -436,15 +439,15 @@ class ProfileTab extends StatelessWidget {
                   context: context,
                   barrierDismissible: false,
                   builder: (BuildContext context) {
-                    return const Dialog(
+                    return Dialog(
                       child: Padding(
-                        padding: EdgeInsets.all(20.0),
+                        padding: const EdgeInsets.all(20.0),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            CircularProgressIndicator(),
-                            SizedBox(width: 20),
-                            Text("Signing out..."),
+                            const CircularProgressIndicator(),
+                            const SizedBox(width: 20),
+                            Text(l10n?.signingOut ?? "Signing out..."),
                           ],
                         ),
                       ),
@@ -472,7 +475,7 @@ class ProfileTab extends StatelessWidget {
                 backgroundColor: Colors.red,
                 foregroundColor: Colors.white,
               ),
-              child: const Text('Logout'),
+              child: Text(l10n?.logout ?? 'Logout'),
             ),
           ],
         );

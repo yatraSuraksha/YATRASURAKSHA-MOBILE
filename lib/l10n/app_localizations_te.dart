@@ -364,4 +364,85 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get threeToFiveMinutes => '3-5 నిమిషాలు';
+
+  @override
+  String get logoutDialogTitle => 'లాగౌట్';
+
+  @override
+  String get logoutDialogMessage => 'మీరు లాగౌట్ అవ్వాలనుకుంటున్నారా?';
+
+  @override
+  String get signingOut => 'సైన్ అవుట్ అవుతోంది...';
+
+  @override
+  String get completed => 'పూర్తయింది';
+
+  @override
+  String get completedTabContent => 'పూర్తయిన ట్యాబ్ కంటెంట్';
+
+  @override
+  String get checkAgain => 'మళ్లీ తనిఖీ చేయండి';
+
+  @override
+  String get enableLocationServices => 'స్థాన సేవలను ప్రారంభించండి';
+
+  @override
+  String get enableAppPermissions => 'యాప్ అనుమతులను ప్రారంభించండి';
+
+  @override
+  String get permissionStatus => 'అనుమతి స్థితి';
+
+  @override
+  String get locationServices => 'స్థాన సేవలు';
+
+  @override
+  String get backgroundLocation => 'నేపథ్య స్థానం';
+
+  @override
+  String get takePhoto => 'ఫోటో తీయండి';
+
+  @override
+  String get fromGallery => 'గ్యాలరీ నుండి';
+
+  @override
+  String get detectingLocation => 'స్థానం గుర్తించబడుతోంది...';
+
+  @override
+  String get locationServicesDisabled => 'స్థాన సేవలు నిలిపివేయబడ్డాయి';
+
+  @override
+  String get locationPermissionDenied => 'స్థాన అనుమతి తిరస్కరించబడింది';
+
+  @override
+  String get unableToGetLocation => 'స్థానాన్ని పొందలేకపోయింది';
+
+  @override
+  String get locationDetected => 'స్థానం గుర్తించబడింది';
+
+  @override
+  String get police => 'పోలీస్';
+
+  @override
+  String get ambulance => 'అంబులెన్స్';
+
+  @override
+  String get fire => 'అగ్నిమాపక';
+
+  @override
+  String get women => 'మహిళలు';
+
+  @override
+  String get child => 'పిల్లల';
+
+  @override
+  String get add => 'జోడించు';
+
+  @override
+  String get name => 'పేరు';
+
+  @override
+  String get contactNumber => 'సంప్రదింపు నంబర్';
+
+  @override
+  String get relation => 'సంబంధం';
 }
